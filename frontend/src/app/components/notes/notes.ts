@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { NoteService } from '../../services/note-service';
 
 @Component({
   selector: 'app-notes',
@@ -8,4 +9,12 @@ import { Component } from '@angular/core';
 })
 export class Notes {
 
+  noteService = inject(NoteService)
+
+  onClick() {
+    this.noteService.getNotes().subscribe({
+      next: (response) => console.log(response),
+      error: (error) => console.log(error)
+    });
+  }
 }
