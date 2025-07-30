@@ -6,14 +6,14 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	router := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
+	router.GET("/", func(context *gin.Context) {
+		context.JSON(http.StatusOK, gin.H{
 			"message": "Hello, Gin!",
 		})
 	})
 
 	// Start server on port 6969
-	r.Run(":6969")
+	router.Run(":6969")
 }
