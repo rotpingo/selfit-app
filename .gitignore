@@ -1,0 +1,7 @@
+# Go
+/backend/bin/
+/backend/build/
+/backend/.env
+/backend/tmp/
+/backend/go.sum
+/backend/go.mod
