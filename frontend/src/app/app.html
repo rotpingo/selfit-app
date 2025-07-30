@@ -1,0 +1,9 @@
+@if(sideBarOpen()){
+<app-backdrop (close)="onSideBarClose()" />
+}
+<app-nav (menuClick)="onSideBarOpen()" />
+<app-sidebar [isOpen]="sideBarOpen()" (navigate)="onSideBarClose()" />
+
+<div id="app-container">
+  <router-outlet />
+</div>

@@ -5,3 +5,17 @@
 /backend/tmp/
 /backend/go.sum
 /backend/go.mod
+
+# Angular
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/
+/frontend/.cache/
+/frontend/out-tsc
+/frontend/*.log
+
+# IDE, OS files
+/frontend/.vscode/
+/frontend/.idea/
+/frontend/.DS_Store
+/frontend/*.swp

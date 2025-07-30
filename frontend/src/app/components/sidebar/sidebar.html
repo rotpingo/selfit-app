@@ -1,0 +1,7 @@
+<aside class="side-bar" [class.visible]="isOpen()">
+  <ul>
+    <li class="list-item">home</li>
+    <li class="list-item" [routerLink]="['/notes']" (click)="onNavigate()">notes</li>
+    <li class="list-item">tasks</li>
+  </ul>
+</aside>
