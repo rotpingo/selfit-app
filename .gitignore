@@ -19,3 +19,6 @@
 /frontend/.idea/
 /frontend/.DS_Store
 /frontend/*.swp
+
+# Database
+postgres_data/
