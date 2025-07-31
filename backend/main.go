@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gin/config"
-	"gin/database"
+	"selfit/config"
+	"selfit/database"
+	"selfit/handlers"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -11,7 +12,7 @@ import (
 func main() {
 
 	config.LoadEnv()
-	database.Connect()
+	database.InitDB()
 
 	server := gin.Default()
 	server.Use(cors.New(cors.Config{
@@ -21,6 +22,8 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	handlers.RegisterNoteRoutes(server)
 
 	server.Run(":6969")
 }
