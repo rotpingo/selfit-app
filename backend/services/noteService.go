@@ -1,14 +1,17 @@
 package services
 
 import (
+	"fmt"
 	"selfit/database"
 	"selfit/models"
+	"time"
 )
 
 func GetAllNotes() ([]models.Note, error) {
 	query := "SELECT * FROM notes"
 	rows, err := database.DB.Query(query)
 	if err != nil {
+		fmt.Println("error fetching:", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -16,8 +19,9 @@ func GetAllNotes() ([]models.Note, error) {
 	var notes []models.Note
 	for rows.Next() {
 		var note models.Note
-		err := rows.Scan(&note.ID, &note.Title, &note.Content, &note.UserID)
+		err := rows.Scan(&note.ID, &note.Title, &note.Content, &note.CreatedAt, &note.UpdatedAt, &note.UserID)
 		if err != nil {
+			fmt.Println("you are here", err)
 			return nil, err
 		}
 		notes = append(notes, note)
@@ -26,30 +30,30 @@ func GetAllNotes() ([]models.Note, error) {
 }
 
 func SaveNote(note models.Note) error {
+
+	note.CreatedAt = time.Now()
+	note.UpdatedAt = time.Now()
+	note.UserID = 0
+
 	query := `
-	INSERT INTO notes(title, content) 
-	VALUES (?, ?)
+	INSERT INTO notes(title, content, created_at, updated_at, user_id) 
+	VALUES ($1, $2, $3, $4, $5)
+	RETURNING id
 	`
-	stmt, err := database.DB.Prepare(query)
+
+	err := database.DB.QueryRow(
+		query,
+		note.Title,
+		note.Content,
+		note.CreatedAt,
+		note.UpdatedAt,
+		note.UserID,
+	).Scan(&note.ID)
 
 	if err != nil {
+		fmt.Println("insert error:", err)
 		return err
 	}
 
-	defer stmt.Close()
-
-	result, err := stmt.Exec(note.Title, note.Content)
-
-	if err != nil {
-		return err
-	}
-
-	id, err := result.LastInsertId()
-
-	if err != nil {
-		return err
-	}
-	note.ID = id
-
-	return err
+	return nil
 }

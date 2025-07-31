@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"selfit/models"
 	"selfit/services"
@@ -11,6 +12,7 @@ import (
 func RegisterNoteRoutes(server *gin.Engine) {
 
 	server.GET("/api/notes", getNotes)
+	server.POST("/api/notes", createNote)
 
 }
 
@@ -32,6 +34,8 @@ func createNote(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
 	}
+
+	fmt.Println(note)
 
 	err = services.SaveNote(note)
 	if err != nil {
