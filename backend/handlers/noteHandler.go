@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"selfit/models"
 	"selfit/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,7 @@ func RegisterNoteRoutes(server *gin.Engine) {
 
 	server.GET("/api/notes", getNotes)
 	server.POST("/api/notes", createNote)
+	server.DELETE("/api/notes/:id", deleteNote)
 
 }
 
@@ -25,7 +27,6 @@ func getNotes(context *gin.Context) {
 	context.JSON(http.StatusOK, notes)
 }
 
-// TODO: Finish this method
 func createNote(context *gin.Context) {
 	var note models.Note
 	err := context.ShouldBindJSON(&note)
@@ -44,4 +45,23 @@ func createNote(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, gin.H{"message": "Note Created!", "note": note})
+}
+
+func deleteNote(context *gin.Context) {
+	noteId := context.Param("id")
+
+	id, err := strconv.Atoi(noteId)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid note ID"})
+		return
+	}
+
+	err = services.DeleteNoteById(id)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Note deleted successfully!"})
 }

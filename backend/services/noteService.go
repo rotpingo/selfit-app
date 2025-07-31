@@ -30,7 +30,6 @@ func GetAllNotes() ([]models.Note, error) {
 }
 
 func SaveNote(note models.Note) error {
-
 	note.CreatedAt = time.Now()
 	note.UpdatedAt = time.Now()
 	note.UserID = 0
@@ -53,6 +52,18 @@ func SaveNote(note models.Note) error {
 	if err != nil {
 		fmt.Println("insert error:", err)
 		return err
+	}
+
+	return nil
+}
+
+func DeleteNoteById(id int) error {
+
+	query := `DELETE FROM notes WHERE id = $1`
+
+	_, err := database.DB.Exec(query, id)
+	if err != nil {
+		return fmt.Errorf("failed to delete note: %w", err)
 	}
 
 	return nil
