@@ -10,11 +10,6 @@ import { NoteService } from '../../services/note-service';
 export class Notes {
 
   noteService = inject(NoteService)
+  notes = this.noteService.notes
 
-  onClick() {
-    this.noteService.getNotes().subscribe({
-      next: (response) => console.log(response),
-      error: (error) => console.log(error)
-    });
-  }
 }

@@ -1,2 +1,5 @@
-<p>notes works!</p>
-<button (click)="onClick()">click me</button>
+@for (note of notes(); track note.id){
+<div class="note-item">
+  {{ note.title }}
+</div>
+}
