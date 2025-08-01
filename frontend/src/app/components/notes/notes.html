@@ -3,7 +3,7 @@
 }
 
 @for (note of notes(); track note.id){
-<div class="note-item">
+<div class="note-item" [routerLink]="[note.id]">
   {{ note.title }}
 </div>
 }

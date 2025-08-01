@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal, Signal } from '@angular/core';
+import { computed, inject, Injectable, signal, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { INote } from '../models/types';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -31,9 +31,25 @@ export class NoteService {
     return toSignal(request$, { initialValue: [] });
   }
 
+  // getNoteById(noteId: number): Signal<INote | undefined> {
+  //   const url = `${this.apiUrl}/notes/${noteId}`;
+  //   const request$: Observable<INote> = this.http.get<INote>(url);
+  //   return toSignal(request$, { initialValue: undefined });
+  // }
+
+  // Get the Note from the loadedNotes pool, no need for HTTP REQUEST
+  getNoteByID(noteID: number): Signal<INote | undefined> {
+    return computed(() => this._notes().find((note) => note.id === noteID));
+  }
+
+
   createNote(note: INote): Observable<void> {
-    console.log("service called with note:", note)
     return this.http.post<void>(this.apiUrl, note);
+  }
+
+  deleteNote(noteID: number): Observable<void> {
+    const url = `${this.apiUrl}/${noteID}`;
+    return this.http.delete<void>(url)
   }
 
   refresh(): void {

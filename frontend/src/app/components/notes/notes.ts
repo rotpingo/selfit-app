@@ -4,10 +4,11 @@ import { FabMenu } from '../shared/fab-menu/fab-menu';
 import { IFabOption, INote } from '../../models/types';
 import { Backdrop } from '../shared/backdrop/backdrop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-notes',
-  imports: [FabMenu, Backdrop, ReactiveFormsModule],
+  imports: [FabMenu, Backdrop, ReactiveFormsModule, RouterLink],
   templateUrl: './notes.html',
   styleUrl: './notes.css'
 })
