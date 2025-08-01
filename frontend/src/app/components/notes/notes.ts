@@ -40,6 +40,7 @@ export class Notes {
   ]
 
   async onCreateNote() {
+
     if (this.noteForm.valid) {
 
       const newNote: INote = {
@@ -47,13 +48,13 @@ export class Notes {
         content: this.noteForm.value.content!,
       };
 
-      try {
-        this.noteService.createNote(newNote);
-        this.onCloseForm();
-      } catch (error) {
-        console.error('Error creating note: ', error)
-      }
-
+      this.noteService.createNote(newNote).subscribe({
+        next: () => {
+          this.onCloseForm();
+          this.noteService.refresh();
+        },
+        error: (err) => console.error('error:', err)
+      });
     } else {
       console.log("invalid form")
     }

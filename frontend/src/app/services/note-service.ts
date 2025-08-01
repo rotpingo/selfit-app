@@ -31,8 +31,9 @@ export class NoteService {
     return toSignal(request$, { initialValue: [] });
   }
 
-  createNote(note: INote): void {
-    this.http.post<INote>(this.apiUrl, note);
+  createNote(note: INote): Observable<void> {
+    console.log("service called with note:", note)
+    return this.http.post<void>(this.apiUrl, note);
   }
 
   refresh(): void {
