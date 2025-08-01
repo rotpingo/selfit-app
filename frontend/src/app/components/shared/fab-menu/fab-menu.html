@@ -1,0 +1,14 @@
+<div class="fab-ctn">
+  <button class="fab-btn" (click)="toggleMenu()">☰</button>
+
+  @if(isOpen()){
+  <app-backdrop (close)="closeMenu()" />
+  <div class="fab-menu">
+    @for (option of options(); track option.icon) {
+    <button (click)="runAction(option)">
+      {{ option.icon || ''}} {{ option.label }}
+    </button>
+    }
+  </div>
+  }
+</div>

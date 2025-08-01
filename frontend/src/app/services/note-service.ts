@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { INote } from '../models/noteModel';
+import { INote } from '../models/types';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -29,6 +29,10 @@ export class NoteService {
   getNotes(): Signal<INote[]> {
     const request$: Observable<INote[]> = this.http.get<INote[]>(this.apiUrl);
     return toSignal(request$, { initialValue: [] });
+  }
+
+  createNote(note: INote): void {
+    this.http.post<INote>(this.apiUrl, note);
   }
 
   refresh(): void {

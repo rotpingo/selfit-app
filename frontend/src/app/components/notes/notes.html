@@ -1,5 +1,23 @@
+@if(isFormOpen()){
+  <app-backdrop (close)="onCloseForm()" />
+}
+
 @for (note of notes(); track note.id){
 <div class="note-item">
   {{ note.title }}
 </div>
 }
+
+<app-fab-menu [options]="menuOptions" />
+
+<form class="create-form" [formGroup]="noteForm" (ngSubmit)="onCreateNote()" #form>
+  <h3>note creation</h3>
+  <label class="form-label">note title</label>
+  <input class="form-input" type="text" formControlName="title">
+  <label>note content</label>
+  <textarea class="form-textarea" rows="10" formControlName="content"></textarea>
+  <div class="form-btns">
+    <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>
+    <button id="submit-btn" type="submit">create</button>
+  </div>
+</form>

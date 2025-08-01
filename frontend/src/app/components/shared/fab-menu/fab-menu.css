@@ -1,0 +1,41 @@
+.fab-ctn {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  bottom: 3rem;
+  right: 3rem;
+  z-index: 200;
+}
+
+.fab-btn {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 200;
+}
+
+.fab-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  z-index: 200;
+}
+
+.fab-menu button {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 200;
+}
