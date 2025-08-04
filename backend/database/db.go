@@ -54,10 +54,32 @@ func createTables() {
 	user_id INTEGER
 	)
 	`
+	createTasksTable := `
+	CREATE TABLE IF NOT EXISTS tasks (
+	id SERIAL PRIMARY KEY,
+	parent_id INTEGER,
+	title TEXT NOT NULL,
+	content TEXT NOT NULL,
+	status TEXT NOT NULL,
+	is_repeat BOOLEAN NOT NULL,
+	interval INTEGER,
+	notes TEXT,
+	due_date TIMESTAMP,
+	exec_date TIMESTAMP,
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP,
+	user_id INTEGER
+	)
+	`
 
 	_, err := DB.Exec(createNotesTable)
 	if err != nil {
 		log.Fatal("Could not create notes table", err)
+	}
+
+	_, err = DB.Exec(createTasksTable)
+	if err != nil {
+		log.Fatal("Could not create tasks table", err)
 	}
 
 }

@@ -8,5 +8,5 @@ type Note struct {
 	Content   string    `json:"content" binding:"required"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	UserID    uint      `json:"user_id"`
+	UserID    int64     `json:"user_id"`
 }

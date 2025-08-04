@@ -11,12 +11,10 @@ import (
 )
 
 func RegisterNoteRoutes(server *gin.Engine) {
-
 	server.GET("/api/notes", getNotes)
 	server.POST("/api/notes", createNote)
 	server.DELETE("/api/notes/:id", deleteNote)
 	server.PUT("/api/notes/:id", editNote)
-
 }
 
 func getNotes(context *gin.Context) {
