@@ -4,7 +4,7 @@
   @if(isOpen()){
   <app-backdrop (close)="closeMenu()" />
   <div class="fab-menu">
-    @for (option of options(); track option.icon) {
+    @for (option of options(); track option.label) {
     <button (click)="runAction(option)">
       {{ option.icon || ''}} {{ option.label }}
     </button>
