@@ -38,6 +38,10 @@ ul {
   background-color: white;
 }
 
+.user {
+  background-color: #6a88c9;
+}
+
 .home {
   background-color: #d37cb6;
 }
@@ -48,4 +52,12 @@ ul {
 
 .tasks {
   background-color: #7cd3c2;
+}
+
+.weather {
+  background-color: #9d6ac9;
+}
+
+.logout {
+  background-color: #c9bb6a;
 }
