@@ -15,7 +15,6 @@ import { RouterLink } from '@angular/router';
 export class Notes {
 
   isFormOpen = signal(false);
-
   noteForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.maxLength(20), Validators.minLength(3), Validators.required],

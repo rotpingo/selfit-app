@@ -47,6 +47,11 @@ export class NoteService {
     return this.http.post<void>(this.apiUrl, note);
   }
 
+  editNote(note: INote): Observable<void> {
+    const url = `${this.apiUrl}/${note.id}`;
+    return this.http.put<void>(url, note)
+  }
+
   deleteNote(noteID: number): Observable<void> {
     const url = `${this.apiUrl}/${noteID}`;
     return this.http.delete<void>(url)
