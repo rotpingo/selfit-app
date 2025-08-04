@@ -1,7 +1,13 @@
 <aside class="side-bar" [class.visible]="isOpen()">
   <ul>
-    <li class="list-item">home</li>
-    <li class="list-item" [routerLink]="['/notes']" (click)="onNavigate()">notes</li>
-    <li class="list-item">tasks</li>
+    <li class="list-item home">
+      <img src="icons/house.png" alt="home" with="18px" height="18px">
+    </li>
+    <li class="list-item notes" [routerLink]="['/notes']" (click)="onNavigate()">
+      <img src="icons/blog-pencil.png" alt="notes" with="18px" height="18px">
+    </li>
+    <li class="list-item tasks">
+      <img src="icons/ballot-check.png" alt="notes" with="18px" height="18px">
+    </li>
   </ul>
 </aside>

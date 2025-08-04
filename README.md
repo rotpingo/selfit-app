@@ -6,3 +6,4 @@ WORK IN PROGRESS
 2. ✅ Tasks Feature (CRUD, layout, maybe subtasks)
 3. 🔐 Authentication (user model, session/token, route guards)
 4. ☁️ Weather API (external data, optional widget)
+5. 🎨 Light Mode & Dark Mode

@@ -1,14 +1,16 @@
 .side-bar {
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 150;
   width: 4.5rem;
   height: 100vh;
-  background-color: #222;
+  background-color: #313342;
   color: wheat;
   flex-direction: column;
   text-align: center;
+  align-items: center;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
 }
@@ -21,11 +23,29 @@ ul {
   list-style: none;
 }
 
+.item-ctn {
+  display: flex;
+  flex-direction: row;
+}
+
 .list-item {
   margin: 2rem 0.3rem;
-  border: 1px solid wheat;
-  height: 4rem;
-  border-radius: 10px;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 30px;
   align-content: center;
   cursor: pointer;
+  background-color: white;
+}
+
+.home {
+  background-color: #d37cb6;
+}
+
+.notes {
+  background-color: #b3d37c;
+}
+
+.tasks {
+  background-color: #7cd3c2;
 }
