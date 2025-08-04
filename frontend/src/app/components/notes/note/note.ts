@@ -53,6 +53,10 @@ export class Note {
       label: 'edit note',
       icon: '',
       action: () => {
+        this.editForm.patchValue({
+          title: this.note()?.title,
+          content: this.note()?.content
+        });
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
       }
@@ -62,14 +66,18 @@ export class Note {
   async onEditNote() {
     if (this.editForm.valid) {
       const newNote: INote = {
+        id: this.note()?.id,
         title: this.editForm.value.title!,
         content: this.editForm.value.content!,
+        createdAt: this.note()?.createdAt
       };
+
+      console.log(newNote);
 
       this.noteService.editNote(newNote).subscribe({
         next: () => {
-          this.onCloseForm();
           this.noteService.refresh();
+          this.onCloseForm();
         },
         error: (err) => console.error('error:', err)
       });

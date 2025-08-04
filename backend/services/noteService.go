@@ -57,6 +57,24 @@ func SaveNote(note models.Note) error {
 	return nil
 }
 
+func EditNote(note models.Note) error {
+	note.UpdatedAt = time.Now()
+
+	query := `
+		UPDATE notes
+		SET title = $1, content = $2, updated_at = $3
+		WHERE id = $4
+	`
+
+	_, err := database.DB.Exec(query, note.Title, note.Content, note.UpdatedAt, note.ID)
+	if err != nil {
+		fmt.Println("update error:", err)
+		return err
+	}
+
+	return nil
+}
+
 func DeleteNoteById(id int) error {
 
 	query := `DELETE FROM notes WHERE id = $1`

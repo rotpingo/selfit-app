@@ -15,6 +15,7 @@ func RegisterNoteRoutes(server *gin.Engine) {
 	server.GET("/api/notes", getNotes)
 	server.POST("/api/notes", createNote)
 	server.DELETE("/api/notes/:id", deleteNote)
+	server.PUT("/api/notes/:id", editNote)
 
 }
 
@@ -45,6 +46,20 @@ func createNote(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, gin.H{"message": "Note Created!", "note": note})
+}
+
+func editNote(context *gin.Context) {
+
+	var note models.Note
+	err := context.ShouldBindJSON(&note)
+
+	err = services.EditNote(note)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Note modified!", "note": note})
 }
 
 func deleteNote(context *gin.Context) {
