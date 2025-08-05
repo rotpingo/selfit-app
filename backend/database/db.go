@@ -65,7 +65,7 @@ func createTables() {
 	interval INTEGER,
 	notes TEXT,
 	due_date TIMESTAMP,
-	exec_date TIMESTAMP,
+	exec_at TIMESTAMP,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP,
 	user_id INTEGER

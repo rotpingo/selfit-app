@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
 export class Notes {
 
   isFormOpen = signal(false);
-  noteForm = new FormGroup({
+  createForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.maxLength(20), Validators.minLength(3), Validators.required],
     }),
@@ -30,7 +30,7 @@ export class Notes {
 
   menuOptions: IFabOption[] = [
     {
-      label: 'Add note',
+      label: 'create note',
       icon: '',
       action: () => {
         this.isFormOpen.set(true);
@@ -41,13 +41,11 @@ export class Notes {
 
   async onCreateNote() {
 
-    if (this.noteForm.valid) {
-
+    if (this.createForm.valid) {
       const newNote: INote = {
-        title: this.noteForm.value.title!,
-        content: this.noteForm.value.content!,
+        title: this.createForm.value.title!,
+        content: this.createForm.value.content!,
       };
-
       this.noteService.createNote(newNote).subscribe({
         next: () => {
           this.onCloseForm();
@@ -58,11 +56,12 @@ export class Notes {
     } else {
       console.log("invalid form")
     }
+
   }
 
   onCloseForm() {
     this.isFormOpen.set(false);
-    this.noteForm.reset();
+    this.createForm.reset();
     this.form().nativeElement.style.display = "none";
   }
 

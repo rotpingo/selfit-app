@@ -1,1 +1,39 @@
-<p>tasks works!</p>
+@if(isFormOpen()){
+<app-backdrop (close)="onCloseForm()" />
+}
+
+
+@for (task of tasks(); track task.id){
+<div class="task-item" [routerLink]="[task.id]">
+  {{ task.title }}
+</div>
+}
+
+<app-fab-menu [options]="menuOptions" />
+
+<form class="create-form" [formGroup]="createForm" (ngSubmit)="onCreateTask()" #form>
+  <h3>task creation</h3>
+  <label class="form-label">task title</label>
+  <input class="form-input" type="text" formControlName="title">
+  <label>task content</label>
+  <textarea class="form-textarea" rows="10" formControlName="content"></textarea>
+  <div>
+    <label>task options</label>
+    <div>
+      <label>repeatable</label>
+      <input type="checkbox" formControlName="isRepeat">
+    </div>
+    <div>
+      <label>interval (days)</label>
+      <input type="number" formControlName="interval">
+    </div>
+  </div>
+  <div>
+    <label>task date</label>
+    <input type="date" formControlName="dueDate">
+  </div>
+  <div class="form-btns">
+    <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>
+    <button id="submit-btn" type="submit">create</button>
+  </div>
+</form>

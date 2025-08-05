@@ -29,7 +29,6 @@ func getTasks(context *gin.Context) {
 func createTask(context *gin.Context) {
 	var task models.Task
 	err := context.ShouldBindJSON(&task)
-
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return

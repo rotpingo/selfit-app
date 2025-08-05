@@ -10,7 +10,7 @@
 
 <app-fab-menu [options]="menuOptions" />
 
-<form class="create-form" [formGroup]="noteForm" (ngSubmit)="onCreateNote()" #form>
+<form class="create-form" [formGroup]="createForm" (ngSubmit)="onCreateNote()" #form>
   <h3>note creation</h3>
   <label class="form-label">note title</label>
   <input class="form-input" type="text" formControlName="title">

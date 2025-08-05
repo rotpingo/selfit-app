@@ -24,6 +24,7 @@ func main() {
 	}))
 
 	handlers.RegisterNoteRoutes(server)
+	handlers.RegisterTaskRoutes(server)
 
 	server.Run(":6969")
 }
