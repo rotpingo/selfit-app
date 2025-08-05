@@ -43,9 +43,10 @@ func GetAllTasks() ([]models.Task, error) {
 	return tasks, nil
 }
 
-func SaveTask(task models.Task) error {
+func CreateTask(task *models.Task) error {
 	task.CreatedAt = time.Now()
 	task.UpdatedAt = time.Now()
+	// TODO: implement User
 	task.UserID = 0
 
 	query := `
@@ -73,6 +74,36 @@ func SaveTask(task models.Task) error {
 	if err != nil {
 		fmt.Println("insert error:", err)
 		return err
+	}
+
+	return nil
+}
+
+func UpdateTask(task *models.Task) error {
+	task.UpdatedAt = time.Now()
+	fmt.Println("task: ", task)
+	query := `
+		UPDATE tasks
+		SET title = $1, content = $2, is_repeat = $3, interval = $4, due_date = $5,   updated_at = $6
+		WHERE id = $7
+	`
+
+	_, err := database.DB.Exec(query, task.Title, task.Content, task.IsRepeat, task.Interval, task.DueDate, task.UpdatedAt, task.ID)
+	if err != nil {
+		fmt.Println("update error:", err)
+		return err
+	}
+
+	return nil
+}
+
+func DeleteTaskById(id int) error {
+
+	query := `DELETE FROM tasks WHERE id = $1`
+
+	_, err := database.DB.Exec(query, id)
+	if err != nil {
+		return fmt.Errorf("failed to delete task: %w", err)
 	}
 
 	return nil

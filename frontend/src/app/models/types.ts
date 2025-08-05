@@ -21,7 +21,7 @@ export interface ITask {
   isRepeat: boolean,
   interval?: number,
   notes?: string,
-  dueDate: Date,
+  dueDate: string,
   execAt?: Date,
   createdAt?: Date,
   updatedAt?: Date,

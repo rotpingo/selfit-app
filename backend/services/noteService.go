@@ -21,7 +21,6 @@ func GetAllNotes() ([]models.Note, error) {
 		var note models.Note
 		err := rows.Scan(&note.ID, &note.Title, &note.Content, &note.CreatedAt, &note.UpdatedAt, &note.UserID)
 		if err != nil {
-			fmt.Println("you are here", err)
 			return nil, err
 		}
 		notes = append(notes, note)
@@ -29,9 +28,10 @@ func GetAllNotes() ([]models.Note, error) {
 	return notes, nil
 }
 
-func SaveNote(note models.Note) error {
+func CreateNote(note *models.Note) error {
 	note.CreatedAt = time.Now()
 	note.UpdatedAt = time.Now()
+	//TODO: implement actual UserID
 	note.UserID = 0
 
 	query := `
@@ -57,7 +57,7 @@ func SaveNote(note models.Note) error {
 	return nil
 }
 
-func EditNote(note models.Note) error {
+func UpdateNote(note *models.Note) error {
 	note.UpdatedAt = time.Now()
 
 	query := `

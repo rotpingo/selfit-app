@@ -12,16 +12,16 @@ const (
 
 type Task struct {
 	ID        int64     `json:"id"`
-	ParentID  int64     `json:"parent_id"`
+	ParentID  int64     `json:"parentId"`
 	Title     string    `json:"title"`
 	Content   string    `json:"content"`
 	Status    Status    `json:"status"`
 	IsRepeat  bool      `json:"isRepeat"`
 	Interval  uint      `json:"interval"`
 	Notes     string    `json:"notes"`
-	DueDate   time.Time `json:"due_date"`
-	ExecAt    time.Time `json:"exec_at"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	UserID    int64     `json:"user_id"`
+	DueDate   time.Time `json:"dueDate"`
+	ExecAt    time.Time `json:"execAt"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	UserID    int64     `json:"userId"`
 }

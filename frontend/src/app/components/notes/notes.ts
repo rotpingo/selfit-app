@@ -33,6 +33,7 @@ export class Notes {
       label: 'create note',
       icon: '',
       action: () => {
+        console.log(this.notes())
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
       }

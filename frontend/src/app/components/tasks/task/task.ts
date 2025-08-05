@@ -36,7 +36,7 @@ export class Task {
       validators: [Validators.required]
     }),
     interval: new FormControl(0),
-    dueDate: new FormControl(new Date(Date.now()), {
+    dueDate: new FormControl('', {
       validators: [Validators.required]
     })
   });
@@ -50,7 +50,7 @@ export class Task {
         this.taskService.deleteTask(this.taskID).subscribe({
           next: () => {
             this.taskService.refresh();
-            this.route.navigate(["notes/"]);
+            this.route.navigate(["tasks/"]);
           },
           error: (err: HttpErrorResponse) => alert(err.message),
         });
@@ -60,9 +60,14 @@ export class Task {
       label: 'edit task',
       icon: '',
       action: () => {
+        console.log(this.editForm)
+        console.log(this.task())
         this.editForm.patchValue({
           title: this.task()?.title,
-          content: this.task()?.content
+          content: this.task()?.content,
+          isRepeat: this.task()?.isRepeat,
+          interval: this.task()?.interval,
+          dueDate: this.task()?.dueDate
         });
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
@@ -78,8 +83,7 @@ export class Task {
         content: this.editForm.value.content!,
         isRepeat: this.editForm.value.isRepeat!,
         interval: this.editForm.value.interval!,
-        dueDate: this.editForm.value.dueDate!,
-        createdAt: this.task()?.createdAt,
+        dueDate: new Date(this.editForm.value.dueDate!).toISOString(),
         userId: 0
       };
 

@@ -2,8 +2,24 @@
 
 <div class="task">
   <h3>{{ task()?.title }}</h3>
-  <span> {{ task()?.createdAt | date:'fullDate'}} </span>
+  <span>created at {{ task()?.createdAt | date:'fullDate'}} </span>
   <p>{{ task()?.content}}</p>
+  <p>due date: {{ task()?.dueDate | date:'fullDate' }}</p>
+  @if(task()?.isRepeat){
+  @if(task()?.interval === 1){
+  interval: {{ task()?.interval}} day
+  } @else {
+  interval: {{ task()?.interval}} days
+  }
+  }
+  <div>
+    <label>notes</label>
+    <textarea></textarea>
+  </div>
+  <div class="form-btns">
+    <button id="cancel-btn" type="button">abort</button>
+    <button id="submit-btn" type="button">complete</button>
+  </div>
 </div>
 
 <form class="edit-form" [formGroup]="editForm" (ngSubmit)="onEditTask()" #form>
@@ -12,8 +28,23 @@
   <input class="form-input" type="text" formControlName="title">
   <label>task content</label>
   <textarea class="form-textarea" rows="10" formControlName="content"></textarea>
+  <div>
+    <label>task options</label>
+    <div>
+      <label>repeatable</label>
+      <input type="checkbox" formControlName="isRepeat">
+    </div>
+    <div>
+      <label>interval (days)</label>
+      <input type="number" formControlName="interval">
+    </div>
+  </div>
+  <div>
+    <label>task date</label>
+    <input type="date" formControlName="dueDate">
+  </div>
   <div class="form-btns">
     <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>
-    <button id="submit-btn" type="submit">create</button>
+    <button id="submit-btn" type="submit">save</button>
   </div>
 </form>

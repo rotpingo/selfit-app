@@ -21,10 +21,7 @@ export class NoteService {
 
   loadNotes(): void {
     this.http.get<INote[]>(this.apiUrl).subscribe({
-      next: (notes) => {
-        const loadedNotes = this.toCamelCaseNotes(notes);
-        this._notes.set(loadedNotes)
-      },
+      next: (notes) => this._notes.set(notes),
       error: (err) => console.error('Failed to load notes', err)
     })
   }
@@ -33,12 +30,6 @@ export class NoteService {
     const request$: Observable<INote[]> = this.http.get<INote[]>(this.apiUrl);
     return toSignal(request$, { initialValue: [] });
   }
-
-  // getNoteById(noteId: number): Signal<INote | undefined> {
-  //   const url = `${this.apiUrl}/notes/${noteId}`;
-  //   const request$: Observable<INote> = this.http.get<INote>(url);
-  //   return toSignal(request$, { initialValue: undefined });
-  // }
 
   // Get the Note from the loadedNotes pool, no need for HTTP REQUEST
   getNoteByID(noteID: number): Signal<INote | undefined> {
@@ -64,19 +55,4 @@ export class NoteService {
     this.loadNotes()
   }
 
-  // transforms the json snake_case format data into camel Case
-  toCamelCaseNote(note: any): INote {
-    return {
-      id: note.id,
-      title: note.title,
-      content: note.content,
-      createdAt: note.created_at,
-      updatedAt: note.updated_at
-    };
-  }
-
-  // transforms the json snake_case format data into camel Case for the entire array
-  toCamelCaseNotes(notes: any[]): INote[] {
-    return notes.map(this.toCamelCaseNote);
-  }
 }

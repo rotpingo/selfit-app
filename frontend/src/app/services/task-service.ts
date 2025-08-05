@@ -22,8 +22,7 @@ export class TaskService {
   loadTasks(): void {
     this.http.get<ITask[]>(this.apiUrl).subscribe({
       next: (tasks) => {
-        const loadedTasks = this.toCamelCaseTasks(tasks);
-        this._tasks.set(loadedTasks)
+        this._tasks.set(tasks);
       },
       error: (err) => console.error('Failed to load tasks', err)
     })
@@ -54,29 +53,5 @@ export class TaskService {
   deleteTask(taskID: number): Observable<void> {
     const url = `${this.apiUrl}/${taskID}`;
     return this.http.delete<void>(url)
-  }
-
-  // transforms the json snake_case format data into camel Case
-  toCamelCaseTask(task: any): ITask {
-    return {
-      id: task.id,
-      parentId: task.parent_id,
-      title: task.title,
-      content: task.content,
-      status: task.status,
-      isRepeat: task.is_repeat,
-      interval: task.interval,
-      notes: task.notes,
-      dueDate: task.due_date,
-      execAt: task.exec_at,
-      createdAt: task.created_at,
-      updatedAt: task.updated_at,
-      userId: task.user_id,
-    };
-  }
-
-  // transforms the json snake_case format data into camel Case for the entire array
-  toCamelCaseTasks(tasks: any[]): ITask[] {
-    return tasks.map(this.toCamelCaseTask);
   }
 }

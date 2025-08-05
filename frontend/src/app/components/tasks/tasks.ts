@@ -30,7 +30,7 @@ export class Tasks {
       validators: [Validators.required]
     }),
     interval: new FormControl(0),
-    dueDate: new FormControl(new Date(Date.now()), {
+    dueDate: new FormControl('', {
       validators: [Validators.required]
     })
   });
@@ -42,6 +42,7 @@ export class Tasks {
       label: 'create task',
       icon: '',
       action: () => {
+        console.log(this.tasks())
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
       }
@@ -56,7 +57,7 @@ export class Tasks {
         content: this.createForm.value.content!,
         isRepeat: this.createForm.value.isRepeat!,
         interval: this.createForm.value.interval!,
-        dueDate: this.createForm.value.dueDate!,
+        dueDate: new Date(this.createForm.value.dueDate!).toISOString(),
         userId: 0,
       };
       this.taskService.createTask(newTask).subscribe({
