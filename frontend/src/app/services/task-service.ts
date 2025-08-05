@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { ITask } from '../models/types';
 import { Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -38,8 +38,22 @@ export class TaskService {
     return toSignal(request$, { initialValue: [] });
   }
 
+  getTaskByID(taskID: number): Signal<ITask | undefined> {
+    return computed(() => this._tasks().find((task) => task.id === taskID));
+  }
+
   createTask(task: ITask): Observable<void> {
     return this.http.post<void>(this.apiUrl, task);
+  }
+
+  editTask(task: ITask): Observable<void> {
+    const url = `${this.apiUrl}/${task.id}`;
+    return this.http.put<void>(url, task)
+  }
+
+  deleteTask(taskID: number): Observable<void> {
+    const url = `${this.apiUrl}/${taskID}`;
+    return this.http.delete<void>(url)
   }
 
   // transforms the json snake_case format data into camel Case

@@ -1,0 +1,19 @@
+<app-fab-menu [options]="menuOptions" />
+
+<div class="task">
+  <h3>{{ task()?.title }}</h3>
+  <span> {{ task()?.createdAt | date:'fullDate'}} </span>
+  <p>{{ task()?.content}}</p>
+</div>
+
+<form class="edit-form" [formGroup]="editForm" (ngSubmit)="onEditTask()" #form>
+  <h3>task adjustment</h3>
+  <label class="form-label">task title</label>
+  <input class="form-input" type="text" formControlName="title">
+  <label>task content</label>
+  <textarea class="form-textarea" rows="10" formControlName="content"></textarea>
+  <div class="form-btns">
+    <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>
+    <button id="submit-btn" type="submit">create</button>
+  </div>
+</form>
