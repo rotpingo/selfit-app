@@ -60,20 +60,24 @@ export class Task {
       label: 'edit task',
       icon: '',
       action: () => {
-        console.log(this.editForm)
-        console.log(this.task())
         this.editForm.patchValue({
           title: this.task()?.title,
           content: this.task()?.content,
           isRepeat: this.task()?.isRepeat,
           interval: this.task()?.interval,
-          dueDate: this.task()?.dueDate
+          dueDate: this.formatDate(this.task()?.dueDate)
         });
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
       }
     },
   ];
+
+  formatDate(date: string | Date | undefined | null): string | null {
+    if (!date) return null;
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
+  }
 
   async onEditTask() {
     if (this.editForm.valid) {
@@ -86,9 +90,6 @@ export class Task {
         dueDate: new Date(this.editForm.value.dueDate!).toISOString(),
         userId: 0
       };
-
-      console.log(newTask);
-
       this.taskService.editTask(newTask).subscribe({
         next: () => {
           this.taskService.refresh();
@@ -99,7 +100,6 @@ export class Task {
     } else {
       console.log("invalid form")
     }
-
   };
 
   onCloseForm() {
@@ -107,5 +107,4 @@ export class Task {
     this.editForm.reset();
     this.form().nativeElement.style.display = "none";
   }
-
 }

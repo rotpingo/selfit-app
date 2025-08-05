@@ -72,8 +72,6 @@ export class Note {
         createdAt: this.note()?.createdAt
       };
 
-      console.log(newNote);
-
       this.noteService.editNote(newNote).subscribe({
         next: () => {
           this.noteService.refresh();

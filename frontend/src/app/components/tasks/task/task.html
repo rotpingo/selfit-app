@@ -2,7 +2,6 @@
 
 <div class="task">
   <h3>{{ task()?.title }}</h3>
-  <span>created at {{ task()?.createdAt | date:'fullDate'}} </span>
   <p>{{ task()?.content}}</p>
   <p>due date: {{ task()?.dueDate | date:'fullDate' }}</p>
   @if(task()?.isRepeat){
