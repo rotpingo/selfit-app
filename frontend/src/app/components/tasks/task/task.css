@@ -1,9 +1,35 @@
 .task {
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background-color: whitesmoke;
 }
 
-.task p {
+.task h3 {
+  margin-bottom: 1rem;
+}
+
+.task label {
   margin-top: 1rem;
+}
+
+.content {
+  resize: none;
+  border: none;
+  color: black;
+  font-size: 1rem;
+  background-color: transparent;
+}
+
+.notes-ctn {
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-ctn textarea {
+  resize: none;
+  font-size: 1rem;
+  padding: 0.2rem;
 }
 
 .edit-form {
@@ -75,7 +101,7 @@
   display: flex;
   padding: 0.5rem;
   justify-content: space-evenly;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
 }
 
 .form-btns button {
@@ -85,6 +111,7 @@
   border: none;
   border-radius: 10px;
   box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 #cancel-btn {
