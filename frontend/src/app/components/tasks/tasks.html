@@ -2,7 +2,7 @@
 <app-backdrop (close)="onCloseForm()" />
 }
 
-
+<div class="space"></div>
 @for (task of tasks(); track task.id){
 <div class="task-item" [routerLink]="[task.id]">
   {{ task.title }}

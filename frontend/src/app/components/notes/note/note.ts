@@ -38,7 +38,7 @@ export class Note {
   menuOptions: IFabOption[] = [
     {
       label: 'delete note',
-      icon: '',
+      icon: 'icons/delete-document.png',
       action: () => {
         this.noteService.deleteNote(this.noteID).subscribe({
           next: () => {
@@ -51,7 +51,7 @@ export class Note {
     },
     {
       label: 'edit note',
-      icon: '',
+      icon: 'icons/file-edit.png',
       action: () => {
         this.editForm.patchValue({
           title: this.note()?.title,

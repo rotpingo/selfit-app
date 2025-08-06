@@ -1,8 +1,16 @@
+.space {
+  height: 0.5rem;
+  width: 100vw;
+}
+
 .task-item {
-  border: 1px solid magenta;
+  margin: 1rem;
   height: 5rem;
   align-content: center;
   text-align: center;
+  border: 2px solid #7cd3c2;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
 .create-form {

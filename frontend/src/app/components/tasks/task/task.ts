@@ -45,7 +45,7 @@ export class Task {
   menuOptions: IFabOption[] = [
     {
       label: 'delete task',
-      icon: '',
+      icon: 'icons/delete-document.png',
       action: () => {
         this.taskService.deleteTask(this.taskID).subscribe({
           next: () => {
@@ -58,7 +58,7 @@ export class Task {
     },
     {
       label: 'edit task',
-      icon: '',
+      icon: 'icons/file-edit.png',
       action: () => {
         this.editForm.patchValue({
           title: this.task()?.title,

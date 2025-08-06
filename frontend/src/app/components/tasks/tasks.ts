@@ -40,7 +40,7 @@ export class Tasks {
   menuOptions: IFabOption[] = [
     {
       label: 'create task',
-      icon: '',
+      icon: 'icons/add-document.png',
       action: () => {
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";

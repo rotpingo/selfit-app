@@ -31,7 +31,7 @@ export class Notes {
   menuOptions: IFabOption[] = [
     {
       label: 'create note',
-      icon: '',
+      icon: 'icons/add-document.png',
       action: () => {
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";

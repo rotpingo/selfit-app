@@ -2,6 +2,8 @@
   <app-backdrop (close)="onCloseForm()" />
 }
 
+<div class="space"></div>
+
 @for (note of notes(); track note.id){
 <div class="note-item" [routerLink]="[note.id]">
   {{ note.title }}
