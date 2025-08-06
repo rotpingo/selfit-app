@@ -6,10 +6,11 @@ import { IFabOption, ITask } from '../../../models/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FabMenu } from '../../shared/fab-menu/fab-menu';
 import { DatePipe } from '@angular/common';
+import { Backdrop } from '../../shared/backdrop/backdrop';
 
 @Component({
   selector: 'app-task',
-  imports: [ReactiveFormsModule, FabMenu, DatePipe],
+  imports: [ReactiveFormsModule, FabMenu, DatePipe, Backdrop],
   templateUrl: './task.html',
   styleUrl: './task.css'
 })

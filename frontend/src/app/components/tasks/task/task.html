@@ -1,5 +1,9 @@
 <app-fab-menu [options]="menuOptions" />
 
+@if(isFormOpen()){
+  <app-backdrop (close)="onCloseForm()" />
+}
+
 <div class="task">
   <h3>{{ task()?.title }}</h3>
   <p>{{ task()?.content}}</p>

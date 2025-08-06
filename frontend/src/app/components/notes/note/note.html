@@ -8,10 +8,10 @@
 
 <form class="edit-form" [formGroup]="editForm" (ngSubmit)="onEditNote()" #form>
   <h3>note adjustment</h3>
-  <label class="form-label">note title</label>
+  <label>note title</label>
   <input class="form-input" type="text" formControlName="title">
   <label>note content</label>
-  <textarea class="form-textarea" rows="10" formControlName="content"></textarea>
+  <textarea class="form-textarea" rows="14" formControlName="content"></textarea>
   <div class="form-btns">
     <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>
     <button id="submit-btn" type="submit">create</button>
