@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
+	"selfit/dto"
 	"selfit/models"
 	"selfit/services"
 	"strconv"
@@ -15,6 +15,7 @@ func RegisterTaskRoutes(server *gin.Engine) {
 	server.POST("/api/tasks", createTask)
 	server.DELETE("/api/tasks/:id", deleteTask)
 	server.PUT("/api/tasks/:id", updateTask)
+	server.PATCH("/api/tasks/:id/abort", abortTask)
 }
 
 func getTasks(context *gin.Context) {
@@ -31,7 +32,6 @@ func getTasks(context *gin.Context) {
 func createTask(context *gin.Context) {
 	var task models.Task
 	err := context.ShouldBindJSON(&task)
-	fmt.Println(&task)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
@@ -76,4 +76,25 @@ func deleteTask(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully!"})
+}
+
+func abortTask(context *gin.Context) {
+	taskId := context.Param("id")
+	id, err := strconv.Atoi(taskId)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
+		return
+	}
+	var notes dto.EndTaskDTO
+	err = context.ShouldBindJSON(&notes)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid body for task notes"})
+		return
+	}
+	err = services.AbortTaskById(id, notes)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not abort Task. Try again Later."})
+		return
+	}
 }

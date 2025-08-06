@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 	"selfit/database"
+	"selfit/dto"
 	"selfit/models"
 	"time"
 )
@@ -46,6 +47,8 @@ func GetAllTasks() ([]models.Task, error) {
 func CreateTask(task *models.Task) error {
 	task.CreatedAt = time.Now()
 	task.UpdatedAt = time.Now()
+	task.Status = models.StatusProgress
+
 	// TODO: implement User
 	task.UserID = 0
 
@@ -81,7 +84,6 @@ func CreateTask(task *models.Task) error {
 
 func UpdateTask(task *models.Task) error {
 	task.UpdatedAt = time.Now()
-	fmt.Println("task: ", task)
 	query := `
 		UPDATE tasks
 		SET title = $1, content = $2, is_repeat = $3, interval = $4, due_date = $5,   updated_at = $6
@@ -104,6 +106,25 @@ func DeleteTaskById(id int) error {
 	_, err := database.DB.Exec(query, id)
 	if err != nil {
 		return fmt.Errorf("failed to delete task: %w", err)
+	}
+
+	return nil
+}
+
+func AbortTaskById(id int, notes dto.EndTaskDTO) error {
+	status := models.StatusAborted
+	query := `
+		UPDATE tasks
+		SET status = $1,
+			notes = $2,
+			updated_at = $3
+		WHERE id = $4
+	`
+
+	_, err := database.DB.Exec(query, status, notes.Notes, time.Now(), id)
+	if err != nil {
+		fmt.Println("Abort error: ", err)
+		return err
 	}
 
 	return nil

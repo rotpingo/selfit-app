@@ -1,15 +1,15 @@
-.task {
+.task-form {
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
   background-color: whitesmoke;
 }
 
-.task h3 {
+.task-form h3 {
   margin-bottom: 1rem;
 }
 
-.task label {
+.task-form label {
   margin-top: 1rem;
 }
 

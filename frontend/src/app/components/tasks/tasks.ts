@@ -42,6 +42,7 @@ export class Tasks {
       label: 'create task',
       icon: 'icons/add-document.png',
       action: () => {
+        console.log(this.tasks())
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
       }

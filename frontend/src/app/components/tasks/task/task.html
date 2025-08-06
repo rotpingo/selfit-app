@@ -4,7 +4,7 @@
   <app-backdrop (close)="onCloseForm()" />
 }
 
-<div class="task">
+<form class="task-form" [formGroup]="endForm" (ngSubmit)="onCompleteTask()" #taskForm>
   <h3>{{ task()?.title }}</h3>
   <textarea class="content" [rows]="12" [disabled]="true">{{ task()?.content}}</textarea>
   <div class="options-ctn">
@@ -20,13 +20,13 @@
   </div>
   <div class="notes-ctn">
     <label>notes</label>
-    <textarea [rows]="10"></textarea>
+    <textarea [rows]="10" formControlName="notes"></textarea>
   </div>
   <div class="form-btns">
-    <button id="cancel-btn" type="button">abort</button>
-    <button id="submit-btn" type="button">complete</button>
+    <button id="cancel-btn" type="button" (click)="onAbortTask()">abort</button>
+    <button id="submit-btn" type="submit">complete</button>
   </div>
-</div>
+</form>
 
 <form class="edit-form" [formGroup]="editForm" (ngSubmit)="onEditTask()" #form>
   <h3>task adjustment</h3>

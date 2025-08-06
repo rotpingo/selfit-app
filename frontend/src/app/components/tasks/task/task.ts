@@ -25,6 +25,11 @@ export class Task {
 
   isFormOpen = signal(false);
   form = viewChild.required<ElementRef<HTMLFormElement>>('form');
+  taskForm = viewChild.required<ElementRef<HTMLFormElement>>('taskForm');
+
+  endForm = new FormGroup({
+    notes: new FormControl(this.task()?.notes)
+  })
 
   editForm = new FormGroup({
     title: new FormControl('', {
@@ -102,6 +107,26 @@ export class Task {
       console.log("invalid form")
     }
   };
+
+  onAbortTask() {
+    const notes = this.endForm.value.notes ?? ''
+    this.taskService.abortTask(this.taskID, { notes }).subscribe({
+      next: () => {
+        this.taskService.refresh();
+        this.route.navigate(["tasks/"]);
+      },
+      error: (err: HttpErrorResponse) => console.error(err),
+    });
+  }
+
+  onCompleteTask() {
+    this.taskService.completeTask(this.taskID, this.task()?.notes).subscribe({
+      next: () => {
+        this.taskService.refresh();
+        this.route.navigate(["tasks/"]);
+      }
+    });
+  }
 
   onCloseForm() {
     this.isFormOpen.set(false);
