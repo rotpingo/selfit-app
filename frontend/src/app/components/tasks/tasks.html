@@ -16,21 +16,23 @@
   <label class="form-label">task title</label>
   <input class="form-input" type="text" formControlName="title">
   <label>task content</label>
-  <textarea class="form-textarea" rows="10" formControlName="content"></textarea>
-  <div>
+  <textarea class="form-textarea" rows="12" formControlName="content"></textarea>
+  <div class="options-ctn">
     <label>task options</label>
-    <div>
-      <label>repeatable</label>
-      <input type="checkbox" formControlName="isRepeat">
+    <div class="task-options-ctn">
+      <div class="options-item-ctn">
+        <p>repeat task</p>
+        <input type="checkbox" formControlName="isRepeat">
+      </div>
+      <div class="options-item-ctn">
+        <p>interval days</p>
+        <input class="options-interval" type="number" [min]="0" formControlName="interval">
+        </div>
+      </div>
+   <div class="date-ctn">
+      <p>task date:</p>
+      <input type="date" formControlName="dueDate">
     </div>
-    <div>
-      <label>interval (days)</label>
-      <input type="number" formControlName="interval">
-    </div>
-  </div>
-  <div>
-    <label>task date</label>
-    <input type="date" formControlName="dueDate">
   </div>
   <div class="form-btns">
     <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>

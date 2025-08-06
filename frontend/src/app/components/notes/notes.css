@@ -18,13 +18,51 @@
   flex-direction: column;
   position: fixed;
   left: 50%;
-  top: 20%;
+  top: 0%;
   transform: translate(-50%, 50%);
   padding: 1.2rem;
   width: 80vw;
-  border: 1px solid black;
   border-radius: 10px;
   z-index: 150;
-  background-color: #252525;
+  background-color: #313342;
   color: wheat;
+}
+
+.create-form label {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.form-input {
+  line-height: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.form-textarea {
+  resize: none;
+  font-size: 1.1rem;
+}
+
+.form-btns {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-evenly;
+  margin-top: 0.5rem;
+}
+
+.form-btns button {
+  width: 4.5rem;
+  height: 2.5rem;
+  color: wheat;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.3);
+}
+
+#cancel-btn {
+  background-color: #af2d2d;
+}
+
+#submit-btn {
+  background-color: #2ba865;
 }
