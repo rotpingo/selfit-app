@@ -3,7 +3,7 @@ package main
 import (
 	"selfit/config"
 	"selfit/database"
-	"selfit/handlers"
+	"selfit/routes"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -23,8 +23,7 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	handlers.RegisterNoteRoutes(server)
-	handlers.RegisterTaskRoutes(server)
+	routes.RegisterRoutes(server)
 
 	server.Run(":6969")
 }
