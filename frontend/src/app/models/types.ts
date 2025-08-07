@@ -1,3 +1,9 @@
+export interface ISign {
+  id?: number,
+  email: string,
+  password: string
+}
+
 export interface INote {
   id?: number
   title: string
