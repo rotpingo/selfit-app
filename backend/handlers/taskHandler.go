@@ -16,6 +16,7 @@ func RegisterTaskRoutes(server *gin.Engine) {
 	server.DELETE("/api/tasks/:id", deleteTask)
 	server.PUT("/api/tasks/:id", updateTask)
 	server.PATCH("/api/tasks/:id/abort", abortTask)
+	server.PATCH("/api/tasks/:id/complete", completeTask)
 }
 
 func getTasks(context *gin.Context) {
@@ -86,15 +87,36 @@ func abortTask(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
 		return
 	}
-	var notes dto.EndTaskDTO
-	err = context.ShouldBindJSON(&notes)
+	var taskDto dto.EndTaskDTO
+	err = context.ShouldBindJSON(&taskDto)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid body for task notes"})
 		return
 	}
-	err = services.AbortTaskById(id, notes)
+	err = services.AbortTaskById(id, taskDto)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not abort Task. Try again Later."})
+		return
+	}
+}
+
+func completeTask(context *gin.Context) {
+	taskId := context.Param("id")
+	id, err := strconv.Atoi(taskId)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
+		return
+	}
+	var taskDto dto.EndTaskDTO
+	err = context.ShouldBindJSON(&taskDto)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid body for task notes"})
+		return
+	}
+	err = services.CompleteTaskById(id, taskDto)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not complete Task. Try again Later."})
 		return
 	}
 }

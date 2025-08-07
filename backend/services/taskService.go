@@ -1,10 +1,12 @@
 package services
 
 import (
+	"database/sql"
 	"fmt"
 	"selfit/database"
 	"selfit/dto"
 	"selfit/models"
+	"selfit/utils"
 	"time"
 )
 
@@ -42,6 +44,42 @@ func GetAllTasks() ([]models.Task, error) {
 		tasks = append(tasks, task)
 	}
 	return tasks, nil
+}
+
+func getTaskById(id int) (*models.Task, error) {
+
+	query := `
+		SELECT id, title, content, status, is_repeat, interval, notes, due_date, exec_at, created_at, updated_at, user_id
+		FROM tasks
+		WHERE id = $1
+	`
+
+	row := database.DB.QueryRow(query, id)
+
+	var task models.Task
+	err := row.Scan(
+		&task.ID,
+		&task.Title,
+		&task.Content,
+		&task.Status,
+		&task.IsRepeat,
+		&task.Interval,
+		&task.Notes,
+		&task.DueDate,
+		&task.ExecAt,
+		&task.CreatedAt,
+		&task.UpdatedAt,
+		&task.UserID,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("task not found")
+		}
+		return nil, err
+	}
+
+	return &task, nil
 }
 
 func CreateTask(task *models.Task) error {
@@ -111,20 +149,79 @@ func DeleteTaskById(id int) error {
 	return nil
 }
 
-func AbortTaskById(id int, notes dto.EndTaskDTO) error {
-	status := models.StatusAborted
+func CompleteTaskById(id int, taskDto dto.EndTaskDTO) error {
+
+	status := models.StatusDone
+	now := time.Now()
+
 	query := `
 		UPDATE tasks
 		SET status = $1,
 			notes = $2,
-			updated_at = $3
-		WHERE id = $4
+			exec_at = $3,
+			updated_at = $4
+		WHERE id = $5
 	`
-
-	_, err := database.DB.Exec(query, status, notes.Notes, time.Now(), id)
+	_, err := database.DB.Exec(query, status, taskDto.Notes, now, now, id)
 	if err != nil {
 		fmt.Println("Abort error: ", err)
 		return err
+	}
+
+	task, _ := getTaskById(id)
+	if task.IsRepeat {
+		var newTask models.Task
+		newTask.ParentID = task.ID
+		newTask.Title = task.Title
+		newTask.Content = task.Content
+		newTask.IsRepeat = task.IsRepeat
+		newTask.Interval = task.Interval
+		newTask.Notes = taskDto.Notes
+		newTask.DueDate = utils.AddDays(now, int(task.Interval))
+
+		err = CreateTask(&newTask)
+		if err != nil {
+			return fmt.Errorf("Error creating new task after completion: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func AbortTaskById(id int, taskDto dto.EndTaskDTO) error {
+
+	status := models.StatusAborted
+	now := time.Now()
+
+	query := `
+		UPDATE tasks
+		SET status = $1,
+			notes = $2,
+			exec_at = $3,
+			updated_at = $4
+		WHERE id = $5
+	`
+	_, err := database.DB.Exec(query, status, taskDto.Notes, now, now, id)
+	if err != nil {
+		fmt.Println("Abort error: ", err)
+		return err
+	}
+
+	task, _ := getTaskById(id)
+	if task.IsRepeat {
+		var newTask models.Task
+		newTask.ParentID = task.ID
+		newTask.Title = task.Title
+		newTask.Content = task.Content
+		newTask.IsRepeat = task.IsRepeat
+		newTask.Interval = task.Interval
+		newTask.Notes = taskDto.Notes
+		newTask.DueDate = utils.AddDays(now, int(task.Interval))
+
+		err = CreateTask(&newTask)
+		if err != nil {
+			return fmt.Errorf("Error creating new task after abort: %w", err)
+		}
 	}
 
 	return nil

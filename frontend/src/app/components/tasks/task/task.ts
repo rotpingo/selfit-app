@@ -109,8 +109,11 @@ export class Task {
   };
 
   onAbortTask() {
-    const notes = this.endForm.value.notes ?? ''
-    this.taskService.abortTask(this.taskID, { notes }).subscribe({
+    const payload = {
+      notes: this.endForm.value.notes ?? ''
+    }
+
+    this.taskService.abortTask(this.taskID, payload).subscribe({
       next: () => {
         this.taskService.refresh();
         this.route.navigate(["tasks/"]);
@@ -120,11 +123,17 @@ export class Task {
   }
 
   onCompleteTask() {
-    this.taskService.completeTask(this.taskID, this.task()?.notes).subscribe({
+
+    const payload = {
+      notes: this.endForm.value.notes ?? ''
+    }
+
+    this.taskService.completeTask(this.taskID, payload).subscribe({
       next: () => {
         this.taskService.refresh();
         this.route.navigate(["tasks/"]);
-      }
+      },
+      error: (err: HttpErrorResponse) => console.error(err),
     });
   }
 

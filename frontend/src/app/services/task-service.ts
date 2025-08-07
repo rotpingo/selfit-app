@@ -55,14 +55,14 @@ export class TaskService {
     return this.http.delete<void>(url)
   }
 
-  abortTask(taskID: number, notes: { notes: string } | undefined): Observable<void> {
+  abortTask(taskID: number, payload: Object): Observable<void> {
     const url = `${this.apiUrl}/${taskID}/abort`;
-    return this.http.patch<void>(url, notes);
+    return this.http.patch<void>(url, payload);
   }
 
-  completeTask(taskID: number, notes: string | undefined): Observable<void> {
+  completeTask(taskID: number, payload: Object): Observable<void> {
     const url = `${this.apiUrl}/${taskID}/complete`;
-    return this.http.patch<void>(url, notes);
+    return this.http.patch<void>(url, payload);
   }
 
 }
