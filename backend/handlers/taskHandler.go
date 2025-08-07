@@ -21,7 +21,7 @@ func RegisterTaskRoutes(server *gin.Engine) {
 
 func getTasks(context *gin.Context) {
 
-	tasks, err := services.GetAllTasks()
+	tasks, err := services.GetAllProgressTasks()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch tasks. Try again later."})
 		return

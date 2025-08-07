@@ -46,6 +46,42 @@ func GetAllTasks() ([]models.Task, error) {
 	return tasks, nil
 }
 
+func GetAllProgressTasks() ([]models.Task, error) {
+	query := "SELECT * FROM tasks WHERE status = $1"
+	rows, err := database.DB.Query(query, models.StatusProgress)
+	if err != nil {
+		fmt.Println("error fetching:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tasks []models.Task
+	for rows.Next() {
+		var task models.Task
+		err := rows.Scan(
+			&task.ID,
+			&task.ParentID,
+			&task.Title,
+			&task.Content,
+			&task.Status,
+			&task.IsRepeat,
+			&task.Interval,
+			&task.Notes,
+			&task.DueDate,
+			&task.ExecAt,
+			&task.CreatedAt,
+			&task.UpdatedAt,
+			&task.UserID,
+		)
+		if err != nil {
+			fmt.Println("error scanning data:", err)
+			return nil, err
+		}
+		tasks = append(tasks, task)
+	}
+	return tasks, nil
+}
+
 func getTaskById(id int) (*models.Task, error) {
 
 	query := `
