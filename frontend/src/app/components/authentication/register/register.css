@@ -1,0 +1,10 @@
+.register-form {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 65vw;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
