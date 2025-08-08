@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"selfit/database"
 	"selfit/models"
-	"time"
 )
 
 func GetAllNotes(userId int64) ([]models.Note, error) {
@@ -53,8 +52,7 @@ func CreateNote(note *models.Note) error {
 	return nil
 }
 
-func UpdateNote(note *models.Note, userId int64) error {
-	note.UpdatedAt = time.Now()
+func UpdateNote(note *models.Note) error {
 
 	query := `
 		UPDATE notes
@@ -63,7 +61,7 @@ func UpdateNote(note *models.Note, userId int64) error {
 		AND user_id = $5
 	`
 
-	_, err := database.DB.Exec(query, note.Title, note.Content, note.UpdatedAt, note.ID, userId)
+	_, err := database.DB.Exec(query, note.Title, note.Content, note.UpdatedAt, note.ID, note.UserID)
 	if err != nil {
 		fmt.Println("update error:", err)
 		return err

@@ -66,7 +66,7 @@ export class Note {
   async onEditNote() {
     if (this.editForm.valid) {
       const newNote: INote = {
-        id: this.note()?.id,
+        id: this.note()?.id!,
         title: this.editForm.value.title!,
         content: this.editForm.value.content!,
         createdAt: this.note()?.createdAt

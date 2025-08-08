@@ -44,6 +44,7 @@ export class Notes {
 
     if (this.createForm.valid) {
       const newNote: INote = {
+        id: 0,
         title: this.createForm.value.title!,
         content: this.createForm.value.content!,
       };

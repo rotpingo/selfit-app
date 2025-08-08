@@ -3,7 +3,6 @@ package handlers
 import (
 	"net/http"
 	"selfit/dto"
-	"selfit/models"
 	"selfit/services"
 	"selfit/utils"
 	"strconv"
@@ -33,7 +32,12 @@ func getNotes(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch notes. Try again later."})
 		return
 	}
-	context.JSON(http.StatusOK, notes)
+
+	var notesDto []dto.NoteResponseDTO
+	for _, note := range notes {
+		notesDto = append(notesDto, dto.NoteToResponseDTO(&note))
+	}
+	context.JSON(http.StatusOK, notesDto)
 }
 
 func createNote(context *gin.Context) {
@@ -54,6 +58,7 @@ func createNote(context *gin.Context) {
 	}
 
 	note := noteDto.ToNoteModel(userId)
+
 	err = services.CreateNote(note)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create Note. Try again Later."})
@@ -73,10 +78,11 @@ func updateNote(context *gin.Context) {
 		return
 	}
 
-	var note models.Note
-	err = context.ShouldBindJSON(&note)
+	var noteDto dto.UpdateNoteDTO
+	err = context.ShouldBindJSON(&noteDto)
 
-	err = services.UpdateNote(&note, userId)
+	note := noteDto.ToNoteModel(userId)
+	err = services.UpdateNote(note)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return

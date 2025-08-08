@@ -18,7 +18,7 @@ export interface IUser {
 }
 
 export interface INote {
-  id?: number
+  id: number
   title: string
   content: string
   createdAt?: Date
