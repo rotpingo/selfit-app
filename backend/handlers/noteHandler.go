@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"selfit/models"
 	"selfit/services"
+	"selfit/utils"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,15 @@ func RegisterNoteRoutes(server *gin.Engine) {
 }
 
 func getNotes(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	notes, err := services.GetAllNotes()
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch notes. Try again later."})
@@ -27,8 +37,17 @@ func getNotes(context *gin.Context) {
 }
 
 func createNote(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	var note models.Note
-	err := context.ShouldBindJSON(&note)
+	err = context.ShouldBindJSON(&note)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
@@ -46,9 +65,17 @@ func createNote(context *gin.Context) {
 }
 
 func updateNote(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
 
 	var note models.Note
-	err := context.ShouldBindJSON(&note)
+	err = context.ShouldBindJSON(&note)
 
 	err = services.UpdateNote(&note)
 	if err != nil {
@@ -60,6 +87,15 @@ func updateNote(context *gin.Context) {
 }
 
 func deleteNote(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	noteId := context.Param("id")
 	id, err := strconv.Atoi(noteId)
 

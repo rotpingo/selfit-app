@@ -5,6 +5,7 @@ import (
 	"selfit/dto"
 	"selfit/models"
 	"selfit/services"
+	"selfit/utils"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,14 @@ func RegisterTaskRoutes(server *gin.Engine) {
 }
 
 func getTasks(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
 
 	tasks, err := services.GetAllProgressTasks()
 	if err != nil {
@@ -31,8 +40,17 @@ func getTasks(context *gin.Context) {
 }
 
 func createTask(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	var task models.Task
-	err := context.ShouldBindJSON(&task)
+	err = context.ShouldBindJSON(&task)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
@@ -48,9 +66,17 @@ func createTask(context *gin.Context) {
 }
 
 func updateTask(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
 
 	var task models.Task
-	err := context.ShouldBindJSON(&task)
+	err = context.ShouldBindJSON(&task)
 
 	err = services.UpdateTask(&task)
 	if err != nil {
@@ -62,6 +88,15 @@ func updateTask(context *gin.Context) {
 }
 
 func deleteTask(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	taskId := context.Param("id")
 	id, err := strconv.Atoi(taskId)
 
@@ -80,6 +115,15 @@ func deleteTask(context *gin.Context) {
 }
 
 func abortTask(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	taskId := context.Param("id")
 	id, err := strconv.Atoi(taskId)
 
@@ -101,6 +145,15 @@ func abortTask(context *gin.Context) {
 }
 
 func completeTask(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
 	taskId := context.Param("id")
 	id, err := strconv.Atoi(taskId)
 

@@ -42,7 +42,7 @@ func CreateUser(user *models.User) error {
 func ValidateUser(user *models.User) error {
 
 	query := `
-		SELECT password
+		SELECT id, password
 		FROM users
 		WHERE email = $1
 	`
@@ -50,7 +50,7 @@ func ValidateUser(user *models.User) error {
 	row := database.DB.QueryRow(query, user.Email)
 
 	var retrievedPassword string
-	err := row.Scan(&retrievedPassword)
+	err := row.Scan(&user.ID, &retrievedPassword)
 
 	if err != nil {
 		return errors.New("Credentials invalid")

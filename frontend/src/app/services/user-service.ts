@@ -8,7 +8,7 @@ import { ISign } from '../models/types';
 })
 export class UserService {
 
-  private apiUrl = 'http://localhost:6969/auth';
+  private apiUrl = 'http://localhost:6969/api/auth';
   http = inject(HttpClient)
 
   registerUser(user: ISign): Observable<void> {

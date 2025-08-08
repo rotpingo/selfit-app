@@ -1,16 +1,18 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"selfit/models"
 	"selfit/services"
+	"selfit/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterUserRoutes(server *gin.Engine) {
-	server.POST("/auth/login", login)
-	server.POST("/auth/register", register)
+	server.POST("api/auth/login", login)
+	server.POST("api/auth/register", register)
 }
 
 func register(context *gin.Context) {
@@ -42,9 +44,16 @@ func login(context *gin.Context) {
 
 	err = services.ValidateUser(&user)
 	if err != nil {
+		fmt.Println("you are here")
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Could not authenticate user."})
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"message": "Login successful!"})
+	token, err := utils.GenerateToken(user.Email, user.ID)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not authenticate user."})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Login successful!", "token": token})
 }
