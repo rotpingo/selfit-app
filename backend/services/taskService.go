@@ -123,9 +123,6 @@ func CreateTask(task *models.Task) error {
 	task.UpdatedAt = time.Now()
 	task.Status = models.StatusProgress
 
-	// TODO: implement User
-	task.UserID = 0
-
 	query := `
 	INSERT INTO tasks(parent_id, title, content, status, is_repeat, interval, notes, due_date, exec_at, created_at, updated_at, user_id) 
 	VALUES ($1, $2, $3, $4, $5,  $6, $7, $8, $9, $10, $11, $12)

@@ -1,10 +1,9 @@
 <div class="register-ctn">
-  <form class="register-form">
+  <form class="register-form" [formGroup]="createForm" (ngSubmit)="onCreateUser()">
     <label> email </label>
-    <input type="text" length="6" formControlName="username">
+    <input type="text" length="6" formControlName="email">
     <label> password </label>
     <input type="password" formControlName="password">
     <button type="submit">sign up</button>
-    <a>sign in instead</a>
   </form>
 </div>

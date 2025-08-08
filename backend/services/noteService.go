@@ -31,8 +31,6 @@ func GetAllNotes() ([]models.Note, error) {
 func CreateNote(note *models.Note) error {
 	note.CreatedAt = time.Now()
 	note.UpdatedAt = time.Now()
-	//TODO: implement actual UserID
-	note.UserID = 0
 
 	query := `
 	INSERT INTO notes(title, content, created_at, updated_at, user_id) 

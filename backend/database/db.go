@@ -44,6 +44,22 @@ func InitDB() {
 
 func createTables() {
 
+	createUsersTable := `
+	CREATE TABLE IF NOT EXISTS users (
+		id SERIAL PRIMARY KEY,
+		name TEXT,
+		email TEXT NOT NULL UNIQUE,
+		password TEXT NOT NULL,
+		created_at TIMESTAMP,
+		updated_at TIMESTAMP
+	)
+	`
+
+	_, err := DB.Exec(createUsersTable)
+	if err != nil {
+		log.Fatal("Could not create users table", err)
+	}
+
 	createNotesTable := `
 	CREATE TABLE IF NOT EXISTS notes (
 	id SERIAL PRIMARY KEY,
@@ -51,9 +67,16 @@ func createTables() {
 	content TEXT NOT NULL,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP,
-	user_id INTEGER
+	user_id INTEGER NOT NULL,
+	FOREIGN KEY(user_id) REFERENCES users(id)
 	)
 	`
+
+	_, err = DB.Exec(createNotesTable)
+	if err != nil {
+		log.Fatal("Could not create notes table", err)
+	}
+
 	createTasksTable := `
 	CREATE TABLE IF NOT EXISTS tasks (
 	id SERIAL PRIMARY KEY,
@@ -68,14 +91,10 @@ func createTables() {
 	exec_at TIMESTAMP,
 	created_at TIMESTAMP,
 	updated_at TIMESTAMP,
-	user_id INTEGER
+	user_id INTEGER NOT NULL,
+	FOREIGN KEY(user_id) REFERENCES users(id)
 	)
 	`
-
-	_, err := DB.Exec(createNotesTable)
-	if err != nil {
-		log.Fatal("Could not create notes table", err)
-	}
 
 	_, err = DB.Exec(createTasksTable)
 	if err != nil {

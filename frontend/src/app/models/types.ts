@@ -1,7 +1,15 @@
 export interface ISign {
-  id?: number,
   email: string,
   password: string
+}
+
+export interface IUser {
+  id?: number,
+  name?: string,
+  email: string,
+  password: string,
+  createdAt?: Date,
+  updatedAt?: Date,
 }
 
 export interface INote {

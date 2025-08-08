@@ -1,10 +1,9 @@
 <div class="login-ctn">
-  <form class="login-form">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLoginUser()">
     <label> email </label>
-    <input type="text" length="6" formControlName="username">
+    <input type="text" length="6" formControlName="email">
     <label> password </label>
     <input type="password" formControlName="password">
     <button type="submit">sign in</button>
-    <a>sign up instead</a>
   </form>
 </div>
