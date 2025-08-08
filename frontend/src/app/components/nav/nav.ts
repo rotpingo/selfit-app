@@ -1,4 +1,5 @@
-import { Component, output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -9,8 +10,14 @@ import { Component, output } from '@angular/core';
 export class Nav {
 
   menuClick = output<void>();
+  router = inject(Router);
 
   onMenuClick() {
     this.menuClick.emit();
+  }
+
+  isNavVisible(): boolean {
+    const hiddenRoutes = ['/auth/login', '/auth/register'];
+    return !hiddenRoutes.includes(this.router.url)
   }
 }
