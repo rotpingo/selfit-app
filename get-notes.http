@@ -1,3 +1,0 @@
-GET http://localhost:6969/api/notes
-content-type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZpb0BnbWFpbC5jb20iLCJleHAiOjE3NTQ2NTQ2NjYsInVzZXJJZCI6M30.6kv_lC-b07M-wyHHhuBsjbdvJrymXJ28gIiEEqhk6dQ
