@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISign } from '../models/types';
+import { IAuthResponse, ISign } from '../models/types';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,8 @@ export class UserService {
     return this.http.post<void>(url, user);
   }
 
-  loginUser(user: ISign): Observable<void> {
+  loginUser(user: ISign): Observable<IAuthResponse> {
     const url = `${this.apiUrl}/login`;
-    return this.http.post<void>(url, user);
+    return this.http.post<IAuthResponse>(url, user);
   }
 }

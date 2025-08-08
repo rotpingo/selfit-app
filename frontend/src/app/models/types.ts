@@ -3,6 +3,11 @@ export interface ISign {
   password: string
 }
 
+export interface IAuthResponse {
+  message: string;
+  token: string;
+}
+
 export interface IUser {
   id?: number,
   name?: string,

@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user-service';
-import { ISign } from '../../../models/types';
+import { IAuthResponse, ISign } from '../../../models/types';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class Login {
 
   userService = inject(UserService);
+  authService = inject(AuthService);
+  router = inject(Router);
 
   loginForm = new FormGroup({
     email: new FormControl('', {
@@ -30,12 +34,14 @@ export class Login {
         password: this.loginForm.value.password!
       }
       this.userService.loginUser(user).subscribe({
-        next: (response) => {
-          //TODO: implement routing to the app
-          console.log(response)
+        next: (response: IAuthResponse) => {
+          this.authService.setToken(response.token);
+          this.router.navigate(['/notes']);
         },
         error: (err: HttpErrorResponse) => console.error(err)
       });
+    } else {
+      alert("Credentials invalid")
     }
   }
 }
