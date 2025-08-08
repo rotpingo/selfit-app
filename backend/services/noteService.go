@@ -3,13 +3,14 @@ package services
 import (
 	"fmt"
 	"selfit/database"
+	"selfit/dto"
 	"selfit/models"
 	"time"
 )
 
-func GetAllNotes() ([]models.Note, error) {
-	query := "SELECT * FROM notes"
-	rows, err := database.DB.Query(query)
+func GetAllNotes(userId int64) ([]models.Note, error) {
+	query := "SELECT * FROM notes WHERE user_id = $1"
+	rows, err := database.DB.Query(query, userId)
 	if err != nil {
 		fmt.Println("error fetching:", err)
 		return nil, err
@@ -28,7 +29,7 @@ func GetAllNotes() ([]models.Note, error) {
 	return notes, nil
 }
 
-func CreateNote(note *models.Note) error {
+func CreateNote(note *dto.NoteDTO, userId int64) error {
 	note.CreatedAt = time.Now()
 	note.UpdatedAt = time.Now()
 
@@ -44,7 +45,7 @@ func CreateNote(note *models.Note) error {
 		note.Content,
 		note.CreatedAt,
 		note.UpdatedAt,
-		note.UserID,
+		userId,
 	).Scan(&note.ID)
 
 	if err != nil {
@@ -55,16 +56,17 @@ func CreateNote(note *models.Note) error {
 	return nil
 }
 
-func UpdateNote(note *models.Note) error {
+func UpdateNote(note *models.Note, userId int64) error {
 	note.UpdatedAt = time.Now()
 
 	query := `
 		UPDATE notes
 		SET title = $1, content = $2, updated_at = $3
 		WHERE id = $4
+		AND user_id = $5
 	`
 
-	_, err := database.DB.Exec(query, note.Title, note.Content, note.UpdatedAt, note.ID)
+	_, err := database.DB.Exec(query, note.Title, note.Content, note.UpdatedAt, note.ID, userId)
 	if err != nil {
 		fmt.Println("update error:", err)
 		return err
@@ -73,11 +75,11 @@ func UpdateNote(note *models.Note) error {
 	return nil
 }
 
-func DeleteNoteById(id int) error {
+func DeleteNoteById(id int64, userId int64) error {
 
-	query := `DELETE FROM notes WHERE id = $1`
+	query := `DELETE FROM notes WHERE id = $1 AND user_id = $2`
 
-	_, err := database.DB.Exec(query, id)
+	_, err := database.DB.Exec(query, id, userId)
 	if err != nil {
 		return fmt.Errorf("failed to delete note: %w", err)
 	}

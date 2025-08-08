@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
+	"selfit/dto"
 	"selfit/models"
 	"selfit/services"
 	"selfit/utils"
@@ -22,13 +22,13 @@ func getNotes(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
 	}
 
-	notes, err := services.GetAllNotes()
+	notes, err := services.GetAllNotes(userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch notes. Try again later."})
 		return
@@ -40,22 +40,20 @@ func createNote(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
 	}
 
-	var note models.Note
+	var note dto.NoteDTO
 	err = context.ShouldBindJSON(&note)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
 	}
 
-	fmt.Println(note)
-
-	err = services.CreateNote(&note)
+	err = services.CreateNote(&note, userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create Note. Try again Later."})
 		return
@@ -68,7 +66,7 @@ func updateNote(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
@@ -77,7 +75,7 @@ func updateNote(context *gin.Context) {
 	var note models.Note
 	err = context.ShouldBindJSON(&note)
 
-	err = services.UpdateNote(&note)
+	err = services.UpdateNote(&note, userId)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
@@ -90,21 +88,22 @@ func deleteNote(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
 	}
 
 	noteId := context.Param("id")
-	id, err := strconv.Atoi(noteId)
+	intId, err := strconv.Atoi(noteId)
+	id := int64(intId)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid note ID"})
 		return
 	}
 
-	err = services.DeleteNoteById(id)
+	err = services.DeleteNoteById(id, userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

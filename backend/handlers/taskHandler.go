@@ -24,13 +24,13 @@ func getTasks(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
 	}
 
-	tasks, err := services.GetAllProgressTasks()
+	tasks, err := services.GetAllProgressTasks(userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch tasks. Try again later."})
 		return
@@ -43,7 +43,7 @@ func createTask(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
@@ -56,7 +56,7 @@ func createTask(context *gin.Context) {
 		return
 	}
 
-	err = services.CreateTask(&task)
+	err = services.CreateTask(&task, userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create Task. Try again Later."})
 		return
@@ -69,7 +69,7 @@ func updateTask(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
@@ -78,7 +78,7 @@ func updateTask(context *gin.Context) {
 	var task models.Task
 	err = context.ShouldBindJSON(&task)
 
-	err = services.UpdateTask(&task)
+	err = services.UpdateTask(&task, userId)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
@@ -91,21 +91,22 @@ func deleteTask(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
 	}
 
 	taskId := context.Param("id")
-	id, err := strconv.Atoi(taskId)
+	intId, err := strconv.Atoi(taskId)
+	id := int64(intId)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
 		return
 	}
 
-	err = services.DeleteTaskById(id)
+	err = services.DeleteTaskById(id, userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -118,14 +119,15 @@ func abortTask(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
 	}
 
 	taskId := context.Param("id")
-	id, err := strconv.Atoi(taskId)
+	intId, err := strconv.Atoi(taskId)
+	id := int64(intId)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
@@ -137,7 +139,7 @@ func abortTask(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid body for task notes"})
 		return
 	}
-	err = services.AbortTaskById(id, taskDto)
+	err = services.AbortTaskById(id, taskDto, userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not abort Task. Try again Later."})
 		return
@@ -148,14 +150,15 @@ func completeTask(context *gin.Context) {
 	utils.CheckToken(context)
 
 	token := context.Request.Header.Get("Authorization")
-	err := utils.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
 		return
 	}
 
 	taskId := context.Param("id")
-	id, err := strconv.Atoi(taskId)
+	intId, err := strconv.Atoi(taskId)
+	id := int64(intId)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
@@ -167,7 +170,7 @@ func completeTask(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid body for task notes"})
 		return
 	}
-	err = services.CompleteTaskById(id, taskDto)
+	err = services.CompleteTaskById(id, taskDto, userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not complete Task. Try again Later."})
 		return
