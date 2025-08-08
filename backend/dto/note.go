@@ -1,11 +1,21 @@
 package dto
 
-import "time"
+import (
+	"selfit/models"
+	"time"
+)
 
-type NoteDTO struct {
-	ID        int64     `json:"id"`
-	Title     string    `json:"title"`
-	Content   string    `json:"content"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+type CreateNoteDTO struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
+func (dto CreateNoteDTO) ToNoteModel(userId int64) *models.Note {
+	return &models.Note{
+		Title:     dto.Title,
+		Content:   dto.Content,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		UserID:    userId,
+	}
 }

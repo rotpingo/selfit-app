@@ -3,7 +3,6 @@ package services
 import (
 	"fmt"
 	"selfit/database"
-	"selfit/dto"
 	"selfit/models"
 	"time"
 )
@@ -29,9 +28,7 @@ func GetAllNotes(userId int64) ([]models.Note, error) {
 	return notes, nil
 }
 
-func CreateNote(note *dto.NoteDTO, userId int64) error {
-	note.CreatedAt = time.Now()
-	note.UpdatedAt = time.Now()
+func CreateNote(note *models.Note) error {
 
 	query := `
 	INSERT INTO notes(title, content, created_at, updated_at, user_id) 
@@ -45,7 +42,7 @@ func CreateNote(note *dto.NoteDTO, userId int64) error {
 		note.Content,
 		note.CreatedAt,
 		note.UpdatedAt,
-		userId,
+		note.UserID,
 	).Scan(&note.ID)
 
 	if err != nil {

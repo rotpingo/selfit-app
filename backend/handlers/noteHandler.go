@@ -46,14 +46,15 @@ func createNote(context *gin.Context) {
 		return
 	}
 
-	var note dto.NoteDTO
-	err = context.ShouldBindJSON(&note)
+	var noteDto dto.CreateNoteDTO
+	err = context.ShouldBindJSON(&noteDto)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
 	}
 
-	err = services.CreateNote(&note, userId)
+	note := noteDto.ToNoteModel(userId)
+	err = services.CreateNote(note)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create Note. Try again Later."})
 		return
