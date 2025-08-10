@@ -58,8 +58,8 @@ export class Tasks {
         isRepeat: this.createForm.value.isRepeat!,
         interval: this.createForm.value.interval!,
         dueDate: new Date(this.createForm.value.dueDate!).toISOString(),
-        userId: 0,
       };
+      console.log(newTask);
       this.taskService.createTask(newTask).subscribe({
         next: () => {
           this.onCloseForm();

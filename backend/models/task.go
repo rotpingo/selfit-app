@@ -16,7 +16,7 @@ type Task struct {
 	Title     string    `json:"title" binding:"required"`
 	Content   string    `json:"content" binding:"required"`
 	Status    Status    `json:"status" binding:"required"`
-	IsRepeat  bool      `json:"isRepeat" binding:"required"`
+	IsRepeat  bool      `json:"isRepeat"`
 	Interval  uint      `json:"interval"`
 	Notes     string    `json:"notes"`
 	DueDate   time.Time `json:"dueDate" binding:"required"`

@@ -15,7 +15,7 @@
     <li class="list-item weather">
       <img src="icons/temperature-high.png" alt="tasks" with="18px" height="18px">
     </li>
-    <li class="list-item logout">
+    <li class="list-item logout" [routerLink]="['/auth/login']" (click)="onLogout()">
       <img src="icons/user-logout.png" alt="logout" with="18px" height="18px">
     </li>
   </ul>

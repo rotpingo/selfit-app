@@ -94,7 +94,6 @@ export class Task {
         isRepeat: this.editForm.value.isRepeat!,
         interval: this.editForm.value.interval!,
         dueDate: new Date(this.editForm.value.dueDate!).toISOString(),
-        userId: 0
       };
       this.taskService.editTask(newTask).subscribe({
         next: () => {

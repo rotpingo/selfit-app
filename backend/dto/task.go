@@ -13,7 +13,7 @@ type TaskResponseDTO struct {
 	ID       int64     `json:"id" binding:"required"`
 	Title    string    `json:"title" binding:"required"`
 	Content  string    `json:"content" binding:"required"`
-	IsRepeat bool      `json:"isRepeat" binding:"required"`
+	IsRepeat bool      `json:"isRepeat"`
 	Interval uint      `json:"interval"`
 	Notes    string    `json:"notes"`
 	DueDate  time.Time `json:"dueDate" binding:"required"`
@@ -22,7 +22,7 @@ type TaskResponseDTO struct {
 type CreateTaskDTO struct {
 	Title    string    `json:"title" binding:"required"`
 	Content  string    `json:"content" binding:"required"`
-	IsRepeat bool      `json:"isRepeat" binding:"required"`
+	IsRepeat bool      `json:"isRepeat"`
 	Interval uint      `json:"interval"`
 	DueDate  time.Time `json:"dueDate" binding:"required"`
 }
@@ -31,7 +31,7 @@ type UpdateTaskDTO struct {
 	ID       int64     `json:"id" binding:"required"`
 	Title    string    `json:"title" binding:"required"`
 	Content  string    `json:"content" binding:"required"`
-	IsRepeat bool      `json:"isRepeat" binding:"required"`
+	IsRepeat bool      `json:"isRepeat"`
 	Interval uint      `json:"interval"`
 	DueDate  time.Time `json:"dueDate" binding:"required"`
 }
