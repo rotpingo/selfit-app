@@ -46,8 +46,8 @@ func GetAllTasks(userId int64) ([]models.Task, error) {
 	return tasks, nil
 }
 
-func GetAllProgressTasks(userId int64) ([]models.Task, error) {
-	query := "SELECT * FROM tasks WHERE status = $1 AND user_id = $2"
+func GetAllProgressTasks(userId int64) ([]dto.TaskResponseDTO, error) {
+	query := "SELECT id, title, content, is_repeat, interval, notes, due_date FROM tasks WHERE status = $1 AND user_id = $2"
 	rows, err := database.DB.Query(query, models.StatusProgress, userId)
 	if err != nil {
 		fmt.Println("error fetching:", err)
@@ -55,31 +55,25 @@ func GetAllProgressTasks(userId int64) ([]models.Task, error) {
 	}
 	defer rows.Close()
 
-	var tasks []models.Task
+	var tasksDto []dto.TaskResponseDTO
 	for rows.Next() {
-		var task models.Task
+		var task dto.TaskResponseDTO
 		err := rows.Scan(
 			&task.ID,
-			&task.ParentID,
 			&task.Title,
 			&task.Content,
-			&task.Status,
 			&task.IsRepeat,
 			&task.Interval,
 			&task.Notes,
 			&task.DueDate,
-			&task.ExecAt,
-			&task.CreatedAt,
-			&task.UpdatedAt,
-			&task.UserID,
 		)
 		if err != nil {
 			fmt.Println("error scanning data:", err)
 			return nil, err
 		}
-		tasks = append(tasks, task)
+		tasksDto = append(tasksDto, task)
 	}
-	return tasks, nil
+	return tasksDto, nil
 }
 
 func getTaskById(id int64, userId int64) (*models.Task, error) {
@@ -119,10 +113,7 @@ func getTaskById(id int64, userId int64) (*models.Task, error) {
 	return &task, nil
 }
 
-func CreateTask(task *models.Task, userId int64) error {
-	task.CreatedAt = time.Now()
-	task.UpdatedAt = time.Now()
-	task.Status = models.StatusProgress
+func CreateTask(task *models.Task) error {
 
 	query := `
 	INSERT INTO tasks(parent_id, title, content, status, is_repeat, interval, notes, due_date, exec_at, created_at, updated_at, user_id) 
@@ -143,7 +134,7 @@ func CreateTask(task *models.Task, userId int64) error {
 		task.ExecAt,
 		task.CreatedAt,
 		task.UpdatedAt,
-		userId,
+		task.UserID,
 	).Scan(&task.ID)
 
 	if err != nil {
@@ -154,8 +145,7 @@ func CreateTask(task *models.Task, userId int64) error {
 	return nil
 }
 
-func UpdateTask(task *models.Task, userId int64) error {
-	task.UpdatedAt = time.Now()
+func UpdateTask(task *models.Task) error {
 	query := `
 		UPDATE tasks
 		SET title = $1, content = $2, is_repeat = $3, interval = $4, due_date = $5,   updated_at = $6
@@ -163,7 +153,7 @@ func UpdateTask(task *models.Task, userId int64) error {
 		AND user_id = $8
 	`
 
-	_, err := database.DB.Exec(query, task.Title, task.Content, task.IsRepeat, task.Interval, task.DueDate, task.UpdatedAt, task.ID, userId)
+	_, err := database.DB.Exec(query, task.Title, task.Content, task.IsRepeat, task.Interval, task.DueDate, task.UpdatedAt, task.ID, task.UserID)
 	if err != nil {
 		fmt.Println("update error:", err)
 		return err
@@ -215,7 +205,7 @@ func CompleteTaskById(id int64, taskDto dto.EndTaskDTO, userId int64) error {
 		newTask.Notes = taskDto.Notes
 		newTask.DueDate = utils.AddDays(now, int(task.Interval))
 
-		err = CreateTask(&newTask, userId)
+		err = CreateTask(&newTask)
 		if err != nil {
 			return fmt.Errorf("Error creating new task after completion: %w", err)
 		}
@@ -255,7 +245,7 @@ func AbortTaskById(id int64, taskDto dto.EndTaskDTO, userId int64) error {
 		newTask.Notes = taskDto.Notes
 		newTask.DueDate = utils.AddDays(now, int(task.Interval))
 
-		err = CreateTask(&newTask, userId)
+		err = CreateTask(&newTask)
 		if err != nil {
 			return fmt.Errorf("Error creating new task after abort: %w", err)
 		}

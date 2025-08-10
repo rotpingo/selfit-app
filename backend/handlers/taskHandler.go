@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"selfit/dto"
-	"selfit/models"
 	"selfit/services"
 	"selfit/utils"
 	"strconv"
@@ -30,13 +30,14 @@ func getTasks(context *gin.Context) {
 		return
 	}
 
-	tasks, err := services.GetAllProgressTasks(userId)
+	tasksDto, err := services.GetAllProgressTasks(userId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch tasks. Try again later."})
 		return
 	}
 
-	context.JSON(http.StatusOK, tasks)
+	fmt.Println("tasks: ", tasksDto)
+	context.JSON(http.StatusOK, tasksDto)
 }
 
 func createTask(context *gin.Context) {
@@ -49,14 +50,16 @@ func createTask(context *gin.Context) {
 		return
 	}
 
-	var task models.Task
-	err = context.ShouldBindJSON(&task)
+	var taskDto dto.CreateTaskDTO
+	err = context.ShouldBindJSON(&taskDto)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
 	}
 
-	err = services.CreateTask(&task, userId)
+	task := taskDto.ToTaskModel(userId)
+
+	err = services.CreateTask(task)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create Task. Try again Later."})
 		return
@@ -75,10 +78,12 @@ func updateTask(context *gin.Context) {
 		return
 	}
 
-	var task models.Task
-	err = context.ShouldBindJSON(&task)
-
-	err = services.UpdateTask(&task, userId)
+	var taskDto dto.UpdateTaskDTO
+	err = context.ShouldBindJSON(&taskDto)
+	fmt.Println("taskDto: ", taskDto)
+	task := taskDto.ToTaskModel(userId)
+	fmt.Println("task: ", task)
+	err = services.UpdateTask(task)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
