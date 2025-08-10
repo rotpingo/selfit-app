@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"selfit/dto"
 	"selfit/services"
@@ -36,7 +35,6 @@ func getTasks(context *gin.Context) {
 		return
 	}
 
-	fmt.Println("tasks: ", tasksDto)
 	context.JSON(http.StatusOK, tasksDto)
 }
 
@@ -80,9 +78,7 @@ func updateTask(context *gin.Context) {
 
 	var taskDto dto.UpdateTaskDTO
 	err = context.ShouldBindJSON(&taskDto)
-	fmt.Println("taskDto: ", taskDto)
 	task := taskDto.ToTaskModel(userId)
-	fmt.Println("task: ", task)
 	err = services.UpdateTask(task)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})

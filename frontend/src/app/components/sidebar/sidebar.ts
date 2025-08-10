@@ -18,7 +18,7 @@ export class Sidebar {
   }
 
   onLogout() {
-    console.log("in")
     this.authService.removeToken();
+    this.navigate.emit();
   }
 }
