@@ -9,7 +9,6 @@ export interface IAuthResponse {
 }
 
 export interface IUser {
-  id?: number,
   name?: string,
   email: string,
   password: string,
@@ -44,5 +43,4 @@ export interface ITask {
   execAt?: Date,
   createdAt?: Date,
   updatedAt?: Date,
-  userId: number,
 }
