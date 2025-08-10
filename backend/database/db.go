@@ -101,4 +101,22 @@ func createTables() {
 		log.Fatal("Could not create tasks table", err)
 	}
 
+	createTrackerTable := `
+	CREATE TABLE IF NOT EXISTS tracker (
+	id SERIAL PRIMARY KEY,
+	title TEXT NOT NULL,
+	notes TEXT NOT NULL,
+	start_date TIMESTAMP,
+	best_streak INTEGER,
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP,
+	user_id INTEGER NOT NULL,
+	FOREIGN KEY(user_id) REFERENCES users(id)
+	)
+	`
+	_, err = DB.Exec(createTrackerTable)
+	if err != nil {
+		log.Fatal("Could not create tracker table", err)
+	}
+
 }
