@@ -6,8 +6,8 @@ This app is created using such frameworks like Angular v20 for client-side and G
 #ROADMAP:
 - [x] Notes Feature (CRUD operations)
 - [x] Tasks Feature (CRUD operations)
+- [x] Authentication (user model, session/token, route guards)
 - [ ] UI Styling
-- [ ] Authentication (user model, session/token, route guards)
 - [ ] Weather API (external data, optional widget)
 - [ ] Light Mode & Dark Mode
-- [ ] Progress Counter Feature
+- [ ] Progress Tracker Feature
