@@ -49,7 +49,7 @@ export interface ITracker {
   id?: number,
   title: string,
   notes: string,
-  startDate: string,
+  startDate?: string,
   currentStreak?: number,
   bestStreak?: number,
   createdAt?: Date,

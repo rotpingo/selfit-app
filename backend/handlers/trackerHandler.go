@@ -13,6 +13,7 @@ import (
 func RegisterTrackerRoutes(server *gin.Engine) {
 	server.GET("/api/trackers", getTrackers)
 	server.POST("/api/trackers", createTracker)
+	server.PUT("/api/trackers/:id", updateTracker)
 	server.DELETE("/api/trackers/:id", deleteTracker)
 }
 
@@ -66,6 +67,29 @@ func createTracker(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, gin.H{"message": "Tracker Created!"})
+}
+
+func updateTracker(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	userId, err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
+	var trackerDto dto.UpdateTrackerDTO
+	err = context.ShouldBindJSON(&trackerDto)
+
+	tracker := trackerDto.ToTrackerModel(userId)
+	err = services.UpdateTracker(tracker)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Tracker modified!"})
 }
 
 func deleteTracker(context *gin.Context) {

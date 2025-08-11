@@ -64,7 +64,7 @@ func UpdateTracker(tracker *models.Tracker) error {
 		AND user_id = $5
 	`
 
-	_, err := database.DB.Exec(query, tracker.Title, tracker.Notes, tracker.ID, tracker.UserID)
+	_, err := database.DB.Exec(query, tracker.Title, tracker.Notes, tracker.UpdatedAt, tracker.ID, tracker.UserID)
 	if err != nil {
 		fmt.Println("update error:", err)
 		return err

@@ -19,10 +19,10 @@
   flex-direction: column;
   position: fixed;
   left: 50%;
-  top: 0%;
+  top: -10%;
   transform: translate(-50%, 50%);
   padding: 1.2rem;
-  width: 80vw;
+  width: 70vw;
   border-radius: 10px;
   z-index: 150;
   background-color: #313342;

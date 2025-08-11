@@ -5,3 +5,15 @@
   <p>{{ tracker()?.notes}}</p>
   <span> {{ tracker()?.startDate | date:'fullDate'}} </span>
 </div>
+
+<form class="edit-form" [formGroup]="editForm" (ngSubmit)="onEditTracker()" #form>
+  <h3>tracker adjustment</h3>
+  <label>tracker title</label>
+  <input class="form-input" type="text" formControlName="title">
+  <label>tracker notes</label>
+  <textarea class="form-textarea" rows="12" formControlName="notes"></textarea>
+  <div class="form-btns">
+    <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>
+    <button id="submit-btn" type="submit">save</button>
+  </div>
+</form>
