@@ -9,7 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class TrackerService {
 
-  private apiUrl = 'http://localhost:6969/api/tracker';
+  private apiUrl = 'http://localhost:6969/api/trackers';
   http = inject(HttpClient)
 
   private readonly _trackers = signal<ITracker[]>([]);

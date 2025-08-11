@@ -78,3 +78,15 @@ func CalculateStreakDto(tracker *dto.TrackerResponseDTO) int {
 	diff := now.Sub(tracker.StartDate)
 	return int(diff.Hours() / 24)
 }
+
+func DeleteTrackerById(id int64, userId int64) error {
+
+	query := `DELETE FROM tracker WHERE id = $1 AND user_id = $2`
+
+	_, err := database.DB.Exec(query, id, userId)
+	if err != nil {
+		return fmt.Errorf("failed to delete tracker: %w", err)
+	}
+
+	return nil
+}

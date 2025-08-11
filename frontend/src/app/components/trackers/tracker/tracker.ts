@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FabMenu } from '../../shared/fab-menu/fab-menu';
 import { IFabOption } from '../../../models/types';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-tracker',
@@ -13,24 +14,32 @@ import { IFabOption } from '../../../models/types';
 })
 export class Tracker {
 
-  noteService = inject(TrackerService);
+  trackerService = inject(TrackerService);
   activeRoute = inject(ActivatedRoute);
   route = inject(Router);
 
   trackerID = parseInt(this.activeRoute.snapshot.paramMap.get('id')!);
-  tracker = this.noteService.getTrackerByID(this.trackerID);
+  tracker = this.trackerService.getTrackerByID(this.trackerID);
 
   menuOptions: IFabOption[] = [
     {
       label: 'delete tracker',
       icon: 'icons/delete-document.png',
       action: () => {
+        this.trackerService.deleteTracker(this.trackerID).subscribe({
+          next: () => {
+            this.route.navigate(["trackers/"]);
+            this.trackerService.refresh()
+          },
+          error: (err: HttpErrorResponse) => console.error(err),
+        });
       }
     },
     {
       label: 'edit note',
       icon: 'icons/file-edit.png',
       action: () => {
+        console.log(this.tracker())
       }
     },
   ];

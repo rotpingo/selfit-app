@@ -5,13 +5,15 @@ import (
 	"selfit/dto"
 	"selfit/services"
 	"selfit/utils"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterTrackerRoutes(server *gin.Engine) {
-	server.GET("/api/tracker", getTrackers)
-	server.POST("/api/tracker", createTracker)
+	server.GET("/api/trackers", getTrackers)
+	server.POST("/api/trackers", createTracker)
+	server.DELETE("/api/trackers/:id", deleteTracker)
 }
 
 func getTrackers(context *gin.Context) {
@@ -64,4 +66,32 @@ func createTracker(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, gin.H{"message": "Tracker Created!"})
+}
+
+func deleteTracker(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	userId, err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
+	trackerId := context.Param("id")
+	intId, err := strconv.Atoi(trackerId)
+	id := int64(intId)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid note ID"})
+		return
+	}
+
+	err = services.DeleteTrackerById(id, userId)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "Tracker deleted successfully!"})
 }

@@ -34,7 +34,6 @@ export class AuthService implements HttpInterceptor {
     )
   }
 
-
   getToken(): string | null {
     return localStorage.getItem('token');
   }
@@ -50,9 +49,4 @@ export class AuthService implements HttpInterceptor {
   logout() {
     this.removeToken();
   }
-
-  loggedIn() {
-    this.getToken();
-  }
-
 }

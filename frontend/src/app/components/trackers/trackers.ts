@@ -54,6 +54,7 @@ export class Trackers {
       }
       this.trackerService.createTracker(newTracker).subscribe({
         next: () => {
+          this.trackerService.refresh();
           this.onCloseForm();
         },
         error: (err: HttpErrorResponse) => console.error(err),
