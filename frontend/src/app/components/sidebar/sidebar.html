@@ -15,8 +15,8 @@
     <li class="list-item weather">
       <img src="icons/temperature-high.png" alt="weather" with="18px" height="18px">
     </li>
-    <li class="list-item habbit">
-      <img src="icons/duration-alt.png" alt="habbit" with="18px" height="18px">
+    <li class="list-item tracker" [routerLink]="['/tracker']" (click)="onNavigate()">
+      <img src="icons/duration-alt.png" alt="tracker" with="18px" height="18px">
     </li>
     <li class="list-item logout" [routerLink]="['/auth/login']" (click)="onLogout()">
       <img src="icons/user-logout.png" alt="logout" with="18px" height="18px">
