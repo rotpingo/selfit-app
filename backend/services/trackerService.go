@@ -3,8 +3,32 @@ package services
 import (
 	"fmt"
 	"selfit/database"
+	"selfit/dto"
 	"selfit/models"
+	"time"
 )
+
+func GetAllTrackers(userId int64) ([]models.Tracker, error) {
+	query := "SELECT * FROM tracker WHERE user_id = $1"
+	rows, err := database.DB.Query(query, userId)
+	if err != nil {
+		fmt.Println("error fetching:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var trackers []models.Tracker
+	for rows.Next() {
+		var tracker models.Tracker
+		err := rows.Scan(&tracker.ID, &tracker.Title, &tracker.Notes, &tracker.StartDate, &tracker.BestStreak, &tracker.CreatedAt, &tracker.UpdatedAt, &tracker.UserID)
+		if err != nil {
+			return nil, err
+		}
+		trackers = append(trackers, tracker)
+	}
+
+	return trackers, nil
+}
 
 func CreateTracker(tracker *models.Tracker) error {
 
@@ -47,4 +71,10 @@ func UpdateTracker(tracker *models.Tracker) error {
 	}
 
 	return nil
+}
+
+func CalculateStreakDto(tracker *dto.TrackerResponseDTO) int {
+	now := time.Now()
+	diff := now.Sub(tracker.StartDate)
+	return int(diff.Hours() / 24)
 }

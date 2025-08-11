@@ -16,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class Tracker {
 
   trackerService = inject(TrackerService)
+  trackers = this.trackerService.trackers
   isFormOpen = signal(false);
   form = viewChild.required<ElementRef<HTMLFormElement>>('form');
 

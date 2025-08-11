@@ -63,7 +63,7 @@ func createTask(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"message": "Task Created!", "task": task})
+	context.JSON(http.StatusCreated, gin.H{"message": "Task Created!"})
 }
 
 func updateTask(context *gin.Context) {

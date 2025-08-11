@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Tracker struct {
 	ID            int64     `json:"id" binding:"required"`
@@ -18,4 +20,5 @@ func (tracker *Tracker) CalculateStreak() int {
 	now := time.Now()
 	diff := now.Sub(tracker.StartDate)
 	return int(diff.Hours() / 24)
+
 }

@@ -30,7 +30,7 @@ func register(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"message": "User Created!", "user": user})
+	context.JSON(http.StatusCreated, gin.H{"message": "User Created!"})
 }
 
 func login(context *gin.Context) {

@@ -65,7 +65,7 @@ func createNote(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusCreated, gin.H{"message": "Note Created!", "note": note})
+	context.JSON(http.StatusCreated, gin.H{"message": "Note Created!"})
 }
 
 func updateNote(context *gin.Context) {

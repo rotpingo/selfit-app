@@ -2,9 +2,17 @@
 <app-backdrop (close)="onCloseForm()" />
 }
 
+<div class="space"></div>
+
+@for (tracker of trackers(); track tracker.id){
+<div class="tracker-item">
+  {{ tracker.title }}
+</div>
+}
+
 <app-fab-menu [options]="menuOptions" />
 
-<form class="create-form" [formGroup]="createForm" (ngSubmit)="onCreateTracker()" #form>
+<form class=" create-form" [formGroup]="createForm" (ngSubmit)="onCreateTracker()" #form>
   <h3>tracker creation</h3>
   <label class="form-label">tracker title</label>
   <input class="form-input" type="text" formControlName="title">

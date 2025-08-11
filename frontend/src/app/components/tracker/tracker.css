@@ -3,18 +3,18 @@
   width: 100vw;
 }
 
-.task-item {
-  margin: 1rem;
+.tracker-item {
+  border: 2px solid #5ea36c;
+  border-radius: 15px;
   height: 5rem;
   align-content: center;
   text-align: center;
-  border: 2px solid #7cd3c2;
-  border-radius: 15px;
+  margin: 1rem;
   cursor: pointer;
 }
 
 .create-form {
-  display: flex;
+  display: none;
   flex-direction: column;
   position: fixed;
   left: 50%;
