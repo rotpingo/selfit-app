@@ -11,6 +11,7 @@
   text-align: center;
   margin: 1rem;
   cursor: pointer;
+  background-color: whitesmoke;
 }
 
 .create-form {

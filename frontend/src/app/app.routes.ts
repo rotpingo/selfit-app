@@ -5,7 +5,8 @@ import { Tasks } from './components/tasks/tasks';
 import { Task } from './components/tasks/task/task';
 import { Login } from './components/authentication/login/login';
 import { Register } from './components/authentication/register/register';
-import { Tracker } from './components/tracker/tracker';
+import { Trackers } from './components/trackers/trackers';
+import { Tracker } from './components/trackers/tracker/tracker';
 
 export const routes: Routes = [
   {
@@ -33,7 +34,11 @@ export const routes: Routes = [
     component: Task
   },
   {
-    path: "tracker",
+    path: "trackers",
+    component: Trackers
+  },
+  {
+    path: "trackers/:id",
     component: Tracker
-  }
+  },
 ];

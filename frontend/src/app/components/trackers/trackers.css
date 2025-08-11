@@ -4,6 +4,7 @@
 }
 
 .tracker-item {
+  background-color: whitesmoke;
   border: 2px solid #5ea36c;
   border-radius: 15px;
   height: 5rem;

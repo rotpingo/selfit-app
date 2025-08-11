@@ -5,7 +5,7 @@
 <div class="space"></div>
 
 @for (tracker of trackers(); track tracker.id){
-<div class="tracker-item">
+<div class="tracker-item" [routerLink]="[tracker.id]">
   {{ tracker.title }}
 </div>
 }

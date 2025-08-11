@@ -1,0 +1,7 @@
+<app-fab-menu [options]="menuOptions" />
+
+<div class="tracker">
+  <h3>{{ tracker()?.title }}</h3>
+  <p>{{ tracker()?.notes}}</p>
+  <span> {{ tracker()?.startDate | date:'fullDate'}} </span>
+</div>

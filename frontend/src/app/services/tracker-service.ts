@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { ITracker } from '../models/types';
 import { Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -19,10 +19,6 @@ export class TrackerService {
     this.loadTrackers()
   }
 
-  createTracker(tracker: ITracker): Observable<void> {
-    return this.http.post<void>(this.apiUrl, tracker);
-  }
-
   loadTrackers(): void {
     this.http.get<ITracker[]>(this.apiUrl).subscribe({
       next: (trackers) => this._trackers.set(trackers),
@@ -30,8 +26,33 @@ export class TrackerService {
     })
   }
 
+  // Get the Tracker from the loadedNotes pool, no need for HTTP REQUEST
+  getTrackerByID(trackerID: number): Signal<ITracker | undefined> {
+    return computed(() => this._trackers().find((tracker) => tracker.id === trackerID));
+  }
+
   getTrackers(): Signal<ITracker[]> {
     const request$: Observable<ITracker[]> = this.http.get<ITracker[]>(this.apiUrl);
     return toSignal(request$, { initialValue: [] });
   }
+
+  createTracker(tracker: ITracker): Observable<void> {
+    return this.http.post<void>(this.apiUrl, tracker);
+  }
+
+  editTracker(tracker: ITracker): Observable<void> {
+    const url = `${this.apiUrl}/${tracker.id}`;
+    return this.http.put<void>(url, tracker)
+  }
+
+  deleteTracker(trackerID: number): Observable<void> {
+    const url = `${this.apiUrl}/${trackerID}`;
+    return this.http.delete<void>(url)
+  }
+
+  refresh(): void {
+    this.loadTrackers()
+  }
+
+
 }

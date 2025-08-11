@@ -6,14 +6,15 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TrackerService } from '../../services/tracker-service';
 import { ITracker } from '../../models/types';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tracker',
-  imports: [FabMenu, Backdrop, ReactiveFormsModule],
-  templateUrl: './tracker.html',
-  styleUrl: './tracker.css'
+  imports: [FabMenu, Backdrop, ReactiveFormsModule, RouterLink],
+  templateUrl: './trackers.html',
+  styleUrl: './trackers.css'
 })
-export class Tracker {
+export class Trackers {
 
   trackerService = inject(TrackerService)
   trackers = this.trackerService.trackers
