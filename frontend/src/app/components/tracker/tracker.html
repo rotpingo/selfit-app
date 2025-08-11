@@ -1,1 +1,21 @@
-<p>tracker works!</p>
+@if(isFormOpen()){
+<app-backdrop (close)="onCloseForm()" />
+}
+
+<app-fab-menu [options]="menuOptions" />
+
+<form class="create-form" [formGroup]="createForm" (ngSubmit)="onCreateTracker()" #form>
+  <h3>tracker creation</h3>
+  <label class="form-label">tracker title</label>
+  <input class="form-input" type="text" formControlName="title">
+  <label>tracker notes</label>
+  <textarea class="form-textarea" rows="12" formControlName="notes"></textarea>
+  <div class="date-ctn">
+    <p>start date:</p>
+    <input type="date" formControlName="startDate">
+  </div>
+  <div class="form-btns">
+    <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button>
+    <button id="submit-btn" type="submit">create</button>
+  </div>
+</form>

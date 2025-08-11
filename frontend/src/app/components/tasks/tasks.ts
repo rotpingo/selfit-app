@@ -42,7 +42,6 @@ export class Tasks {
       label: 'create task',
       icon: 'icons/add-document.png',
       action: () => {
-        console.log(this.tasks())
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
       }
@@ -59,7 +58,6 @@ export class Tasks {
         interval: this.createForm.value.interval!,
         dueDate: new Date(this.createForm.value.dueDate!).toISOString(),
       };
-      console.log(newTask);
       this.taskService.createTask(newTask).subscribe({
         next: () => {
           this.onCloseForm();
