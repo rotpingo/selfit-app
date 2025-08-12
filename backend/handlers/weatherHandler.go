@@ -31,6 +31,21 @@ func RegisterWeatherRoutes(server *gin.Engine) {
 // 	context.JSON(http.StatusOK, weatherDto)
 // }
 
+// func searchCity(context *gin.Context) {
+// 	utils.CheckToken(context)
+// 	token := context.Request.Header.Get("Authorization")
+// 	userId, err := utils.VerifyToken(token)
+// 	if err != nil {
+// 		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+// 		return
+// 	}
+// 	city := context.Query("city")
+// 	if city == "" {
+// 		context.JSON(http.StatusBadRequest, gin.H{"error": "city query parameter is required"})
+// 		return
+// 	}
+// }
+
 func addCity(context *gin.Context) {
 
 	utils.CheckToken(context)

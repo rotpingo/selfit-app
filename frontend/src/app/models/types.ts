@@ -55,3 +55,10 @@ export interface ITracker {
   createdAt?: Date,
   updatedAt?: Date,
 }
+
+export interface IGeocodeResult {
+  name: string;
+  country: string;
+  lot: number;
+  lat: number;
+}

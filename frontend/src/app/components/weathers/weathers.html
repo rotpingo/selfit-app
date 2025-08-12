@@ -1,1 +1,30 @@
-<p>weathers works!</p>
+<!-- @if(isFormOpen()){ -->
+<!-- <app-backdrop (close)="onCloseForm()" /> -->
+<!-- } -->
+<!---->
+<!-- <div class="space"></div> -->
+<!---->
+<!-- <app-fab-menu [options]="menuOptions" /> -->
+<!---->
+<!-- <form class="create-form" [formGroup]="createForm" (ngSubmit)="onAddCity()" #form> -->
+<!--   <label class="form-label">city</label> -->
+<!--   <input class="form-input" type="text" formControlName="city"> -->
+<!--   <div class="form-btns"> -->
+<!--     <button id="cancel-btn" type="button" (click)="onCloseForm()">cancel</button> -->
+<!--     <button id="submit-btn" type="submit">create</button> -->
+<!--   </div> -->
+<!-- </form> -->
+
+
+<!-- src/app/components/city-search/city-search.component.html -->
+<input type="text" placeholder="Search for a city..." (input)="onSearchCity($event)" class="search-input" />
+
+@if(weatherService.searchCity.length > 0){
+<ul class="suggestions">
+  @for(city of weatherService.geocodeResults(); track $index){
+  <li (click)="onSelectCity(city)">
+    {{ city.name }}, {{ city.country }}
+  </li>
+  }
+</ul>
+}

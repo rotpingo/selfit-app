@@ -1,0 +1,14 @@
+.create-form {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, 50%);
+  padding: 1.2rem;
+  width: 70vw;
+  border-radius: 10px;
+  z-index: 150;
+  background-color: #313342;
+  color: wheat;
+}
