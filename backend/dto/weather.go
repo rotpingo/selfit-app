@@ -2,6 +2,10 @@ package dto
 
 import ()
 
+type WeatherRequestDTO struct {
+	City string `json:"city" binding:"required"`
+}
+
 type WeatherDTO struct {
 	Name string `json:"name"`
 	Main struct {
