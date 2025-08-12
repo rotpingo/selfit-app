@@ -15,7 +15,7 @@
     <li class="list-item tracker" [routerLink]="['/trackers']" (click)="onNavigate()">
       <img src="icons/duration-alt.png" alt="tracker" with="18px" height="18px">
     </li>
-    <li class="list-item weather">
+    <li class="list-item weather" [routerLink]="['/weather']" (click)="onNavigate()">
       <img src="icons/temperature-high.png" alt="weather" with="18px" height="18px">
     </li>
     <li class="list-item logout" [routerLink]="['/auth/login']" (click)="onLogout()">

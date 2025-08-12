@@ -7,6 +7,7 @@ import { Login } from './components/authentication/login/login';
 import { Register } from './components/authentication/register/register';
 import { Trackers } from './components/trackers/trackers';
 import { Tracker } from './components/trackers/tracker/tracker';
+import { Weathers } from './components/weathers/weathers';
 
 export const routes: Routes = [
   {
@@ -40,5 +41,9 @@ export const routes: Routes = [
   {
     path: "trackers/:id",
     component: Tracker
+  },
+  {
+    path: "weather",
+    component: Weathers
   },
 ];

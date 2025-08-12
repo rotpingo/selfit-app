@@ -1,9 +1,23 @@
 package dto
 
-import ()
+import (
+	"selfit/models"
+	"time"
+)
 
 type WeatherRequestDTO struct {
 	City string `json:"city" binding:"required"`
+}
+
+type WeatherAPIResponse struct {
+	Name string `json:"name"`
+	Sys  struct {
+		Country string `json:"country"`
+	}
+	Coord struct {
+		Lon float64 `json:"lon"`
+		Lat float64 `json:"lat"`
+	}
 }
 
 type WeatherDTO struct {
@@ -38,32 +52,30 @@ type WeatherDTO struct {
 	}
 }
 
-// func (dto WeatherDTO) ToWeatherModel(userId int64) *models.Weather {
-// 	return &models.Weather{
-// 		City:        dto.City,
-// 		Country:     dto.Country,
-// 		Temperature: dto.Temperature,
-// 		Description: dto.Description,
-// 		Humidity:    dto.Humidity,
-// 		Wind:        dto.Wind,
-// 		Cloudiness:  dto.Cloudiness,
-// 		WeatherCode: dto.WeatherCode,
-// 		CreatedAt:   time.Now(),
-// 		UpdatedAt:   time.Now(),
-// 		UserID:      userId,
-// 	}
-// }
-//
-// func WeatherToResponseDTO(weather *models.Weather) WeatherDTO {
-// 	return WeatherDTO{
-// 		ID:          weather.ID,
-// 		City:        weather.City,
-// 		Country:     weather.Country,
-// 		Temperature: weather.Temperature,
-// 		Description: weather.Description,
-// 		Humidity:    weather.Humidity,
-// 		Wind:        weather.Wind,
-// 		Cloudiness:  weather.Cloudiness,
-// 		WeatherCode: weather.WeatherCode,
-// 	}
-// }
+type CreateWeatherDTO struct {
+	Name    string  `json:"name"`
+	Country string  `json:"country"`
+	Lon     float64 `json:"lon"`
+	Lat     float64 `json:"lat"`
+}
+
+func (dto CreateWeatherDTO) ToWeatherModel(userId int64) *models.Weather {
+	return &models.Weather{
+		Name:      dto.Name,
+		Country:   dto.Country,
+		Lon:       dto.Lon,
+		Lat:       dto.Lat,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		UserID:    userId,
+	}
+}
+
+func NewCreateWeatherDTOFromAPI(api WeatherAPIResponse) CreateWeatherDTO {
+	return CreateWeatherDTO{
+		Name:    api.Name,
+		Country: api.Sys.Country,
+		Lon:     api.Coord.Lon,
+		Lat:     api.Coord.Lat,
+	}
+}

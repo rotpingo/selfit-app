@@ -119,4 +119,21 @@ func createTables() {
 		log.Fatal("Could not create tracker table", err)
 	}
 
+	createWeatherTable := `
+	CREATE TABLE IF NOT EXISTS weather (
+	id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL,
+	country TEXT NOT NULL,
+	lon REAL,
+	lat REAL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	user_id INTEGER NOT NULL,
+	FOREIGN KEY(user_id) REFERENCES users(id)
+	)
+	`
+	_, err = DB.Exec(createWeatherTable)
+	if err != nil {
+		log.Fatal("Could not create weather table", err)
+	}
 }
