@@ -11,4 +11,5 @@ func RegisterRoutes(server *gin.Engine) {
 	handlers.RegisterNoteRoutes(server)
 	handlers.RegisterTaskRoutes(server)
 	handlers.RegisterTrackerRoutes(server)
+	handlers.RegisterWeatherRoutes(server)
 }
