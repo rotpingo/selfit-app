@@ -1,9 +1,10 @@
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IFabOption, IGeocodeResult } from '../../models/types';
+import { IFabOption, IWeatherRequest } from '../../models/types';
 import { FabMenu } from '../shared/fab-menu/fab-menu';
 import { Backdrop } from '../shared/backdrop/backdrop';
 import { WeatherService } from '../../services/weather-service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-weathers',
@@ -36,18 +37,15 @@ export class Weathers {
   ];
 
   onAddCity() {
-    console.log("clicked")
-  }
-
-  onSearchCity(event: Event) {
-    const input = event?.target as HTMLInputElement;
-    const value = input.value;
-    console.log(value)
-    this.weatherService.searchCity(value);
-  }
-
-  onSelectCity(city: IGeocodeResult) {
-    console.log('Selected City:', city);
+    if (this.createForm.valid) {
+      const city: IWeatherRequest = {
+        name: this.createForm.value.city!
+      }
+      this.weatherService.addCity(city).subscribe({
+        next: () => console.log("successfuly added"),
+        error: (err: HttpErrorResponse) => console.error(err)
+      })
+    }
   }
 
   onCloseForm() {

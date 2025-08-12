@@ -6,7 +6,8 @@ import (
 )
 
 type WeatherRequestDTO struct {
-	City string `json:"city" binding:"required"`
+	Name    string `json:"name" binding:"required"`
+	Country string `json:"country"`
 }
 
 type WeatherAPIResponse struct {

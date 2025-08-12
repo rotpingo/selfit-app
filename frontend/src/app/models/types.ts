@@ -56,9 +56,7 @@ export interface ITracker {
   updatedAt?: Date,
 }
 
-export interface IGeocodeResult {
-  name: string;
-  country: string;
-  lot: number;
-  lat: number;
+export interface IWeatherRequest {
+  name: string,
+  country?: string,
 }
