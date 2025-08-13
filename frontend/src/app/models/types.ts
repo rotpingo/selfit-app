@@ -61,3 +61,35 @@ export interface IWeatherRequest {
   name: string,
   country?: string,
 }
+
+export interface IWeatherResponse {
+  name: string;
+  main: {
+    temp: number;
+    feels_like: number;
+    temp_min: number;
+    temp_max: number;
+    humidity: number;
+  };
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  sys: {
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  weather: {
+    id: number;
+    main: string;
+    description: string;
+  }[];
+  clouds: {
+    all: number;
+  };
+  coord: {
+    lon: number;
+    lat: number;
+  };
+}

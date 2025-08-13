@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
 import { Observable } from "rxjs";
-import { IWeatherRequest } from "../models/types";
+import { IWeatherRequest, IWeatherResponse } from "../models/types";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,6 @@ export class WeatherService {
 
   constructor() {
     this.loadWeatherCities();
-    console.log(this.weathers())
   }
 
   addCity(req: IWeatherRequest): Observable<void> {
@@ -31,8 +30,19 @@ export class WeatherService {
     })
   }
 
-  getWeathers() {
+  getWeatherById(cityId: number): Observable<IWeatherResponse> {
+    const url = `${this.apiUrl}/${cityId}`;
+    return this.http.get<IWeatherResponse>(url);
+  }
 
+  deleteCity(cityID: number): Observable<void> {
+    const url = `${this.apiUrl}/${cityID}`;
+    return this.http.delete<void>(url)
+  }
+
+
+  refresh(): void {
+    this.loadWeatherCities()
   }
 
 }

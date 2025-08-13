@@ -8,6 +8,7 @@ import { Register } from './components/authentication/register/register';
 import { Trackers } from './components/trackers/trackers';
 import { Tracker } from './components/trackers/tracker/tracker';
 import { Weathers } from './components/weathers/weathers';
+import { Weather } from './components/weathers/weather/weather';
 
 export const routes: Routes = [
   {
@@ -45,5 +46,8 @@ export const routes: Routes = [
   {
     path: "weather",
     component: Weathers
+  }, {
+    path: "weather/:id",
+    component: Weather
   },
 ];

@@ -5,10 +5,11 @@ import { FabMenu } from '../shared/fab-menu/fab-menu';
 import { Backdrop } from '../shared/backdrop/backdrop';
 import { WeatherService } from '../../services/weather-service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-weathers',
-  imports: [ReactiveFormsModule, FabMenu, Backdrop],
+  imports: [ReactiveFormsModule, FabMenu, Backdrop, RouterLink],
   templateUrl: './weathers.html',
   styleUrl: './weathers.css'
 })

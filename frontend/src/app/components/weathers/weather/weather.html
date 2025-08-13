@@ -1,1 +1,9 @@
-<p>weather works!</p>
+@if(isFormOpen()){
+<app-backdrop (close)="onCloseForm()" />
+}
+
+<div class="city-ctn">
+  <h3>{{cityData()?.name}}</h3>
+</div>
+
+<app-fab-menu [options]="menuOptions" />

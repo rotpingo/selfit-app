@@ -1,6 +1,7 @@
 package services
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -31,7 +32,25 @@ func GetAllCities(userId int64) ([]dto.WeatherResponseDTO, error) {
 	}
 	return cities, nil
 }
-func FetchWeather(city string) (dto.WeatherDTO, error) {
+func FetchWeather(userId, id int64) (dto.WeatherDTO, error) {
+
+	query := `
+		SELECT name 
+		FROM weather 
+		WHERE user_id = $1
+		AND id = $2
+	`
+
+	var city string
+	err := database.DB.QueryRow(query, userId, id).Scan(&city)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			fmt.Println("City not found")
+			return dto.WeatherDTO{}, nil
+		}
+		fmt.Println("error fetching:", err)
+		return dto.WeatherDTO{}, err
+	}
 
 	apiKey := getApiKey()
 	apiUrl := fmt.Sprintf(
@@ -109,6 +128,18 @@ func CreateWeather(weather *models.Weather) error {
 	if err != nil {
 		fmt.Println("insert error:", err)
 		return err
+	}
+
+	return nil
+}
+
+func DeleteCityById(id int64, userId int64) error {
+
+	query := `DELETE FROM weather WHERE id = $1 AND user_id = $2`
+
+	_, err := database.DB.Exec(query, id, userId)
+	if err != nil {
+		return fmt.Errorf("failed to delete city: %w", err)
 	}
 
 	return nil

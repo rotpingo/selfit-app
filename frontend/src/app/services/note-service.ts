@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { INote } from '../models/types';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +25,10 @@ export class NoteService {
     })
   }
 
-  getNotes(): Signal<INote[]> {
-    const request$: Observable<INote[]> = this.http.get<INote[]>(this.apiUrl);
-    return toSignal(request$, { initialValue: [] });
-  }
+  // getNotes(): Signal<INote[]> {
+  //   const request$: Observable<INote[]> = this.http.get<INote[]>(this.apiUrl);
+  //   return toSignal(request$, { initialValue: [] });
+  // }
 
   // Get the Note from the loadedNotes pool, no need for HTTP REQUEST
   getNoteByID(noteID: number): Signal<INote | undefined> {

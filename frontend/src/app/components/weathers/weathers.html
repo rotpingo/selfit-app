@@ -5,7 +5,7 @@
 <div class="space"></div>
 
 @for (city of cities(); track city.id){
-<div class="note-item">
+<div class="note-item" [routerLink]="[city.id]">
   {{ city.name }}
 </div>
 }
