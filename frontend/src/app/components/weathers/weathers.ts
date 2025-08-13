@@ -16,6 +16,7 @@ export class Weathers {
 
   isFormOpen = signal(false);
   weatherService = inject(WeatherService)
+  cities = this.weatherService.weathers
 
   createForm = new FormGroup({
     city: new FormControl('', {
@@ -42,7 +43,9 @@ export class Weathers {
         name: this.createForm.value.city!
       }
       this.weatherService.addCity(city).subscribe({
-        next: () => console.log("successfuly added"),
+        next: () => {
+          this.onCloseForm()
+        },
         error: (err: HttpErrorResponse) => console.error(err)
       })
     }

@@ -57,6 +57,7 @@ export interface ITracker {
 }
 
 export interface IWeatherRequest {
+  id?: number,
   name: string,
   country?: string,
 }

@@ -4,6 +4,12 @@
 
 <div class="space"></div>
 
+@for (city of cities(); track city.id){
+<div class="note-item">
+  {{ city.name }}
+</div>
+}
+
 <app-fab-menu [options]="menuOptions" />
 
 <form class="create-form" [formGroup]="createForm" (ngSubmit)="onAddCity()" #form>

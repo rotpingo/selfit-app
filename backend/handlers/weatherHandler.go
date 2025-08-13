@@ -10,9 +10,28 @@ import (
 )
 
 func RegisterWeatherRoutes(server *gin.Engine) {
+	server.GET("/api/weather", getCities)
 	server.POST("/api/weather", addCity)
 }
 
+func getCities(context *gin.Context) {
+	utils.CheckToken(context)
+
+	token := context.Request.Header.Get("Authorization")
+	userId, err := utils.VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized."})
+		return
+	}
+
+	cities, err := services.GetAllCities(userId)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch notes. Try again later."})
+		return
+	}
+
+	context.JSON(http.StatusOK, cities)
+}
 func addCity(context *gin.Context) {
 
 	utils.CheckToken(context)

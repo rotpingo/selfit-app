@@ -11,6 +11,26 @@ import (
 	"selfit/models"
 )
 
+func GetAllCities(userId int64) ([]dto.WeatherResponseDTO, error) {
+	query := "SELECT id, name, country FROM weather WHERE user_id = $1"
+	rows, err := database.DB.Query(query, userId)
+	if err != nil {
+		fmt.Println("error fetching:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var cities []dto.WeatherResponseDTO
+	for rows.Next() {
+		var cityData dto.WeatherResponseDTO
+		err := rows.Scan(&cityData.ID, &cityData.Name, &cityData.Country)
+		if err != nil {
+			return nil, err
+		}
+		cities = append(cities, cityData)
+	}
+	return cities, nil
+}
 func FetchWeather(city string) (dto.WeatherDTO, error) {
 
 	apiKey := getApiKey()

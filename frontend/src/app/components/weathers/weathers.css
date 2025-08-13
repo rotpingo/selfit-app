@@ -1,5 +1,21 @@
+.space {
+  height: 0.5rem;
+  width: 100vw;
+}
+
+.note-item {
+  border: 2px solid #9d6ac9;
+  border-radius: 15px;
+  height: 5rem;
+  align-content: center;
+  text-align: center;
+  margin: 1rem;
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
 .create-form {
-  display: flex;
+  display: none;
   flex-direction: column;
   position: fixed;
   left: 50%;

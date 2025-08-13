@@ -10,6 +10,12 @@ type WeatherRequestDTO struct {
 	Country string `json:"country"`
 }
 
+type WeatherResponseDTO struct {
+	ID      int64  `json:"id"`
+	Name    string `json:"name" binding:"required"`
+	Country string `json:"country"`
+}
+
 type WeatherAPIResponse struct {
 	Name string `json:"name"`
 	Sys  struct {
