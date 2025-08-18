@@ -15,6 +15,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class Weather {
 
+  imgUrl = signal('');
+
   isFormOpen = signal(false);
   weatherService = inject(WeatherService)
 
@@ -46,9 +48,37 @@ export class Weather {
       icon: 'icons/file-edit.png',
       action: () => {
         console.log(this.cityData())
+        this.getImg(800)
       }
     },
   ];
+
+  getImg(weatherCode: number) {
+    switch (true) {
+      case weatherCode >= 200 && weatherCode <= 232:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode >= 300 && weatherCode <= 321:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode >= 500 && weatherCode <= 531:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode >= 600 && weatherCode <= 601:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode == 602 || weatherCode == 620 || weatherCode == 621 || weatherCode == 622:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode >= 611 && weatherCode < 620:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode >= 701 && weatherCode <= 781:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode == 800:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode == 801:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      case weatherCode >= 802 && weatherCode <= 804:
+        return this.imgUrl.set("icons/weather-status/sun.png");
+      default:
+        return console.log("wrong weather status");
+    }
+  }
 
   onCloseForm() {
   }

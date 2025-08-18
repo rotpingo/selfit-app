@@ -10,7 +10,9 @@
     <div class="temp-ctn">
       <label>{{cityData()?.main?.temp?.toFixed(0)}}°C</label>
     </div>
-  </div>
+    <div class="status-img-container">
+      <img class="status-img" src={{imgUrl()}} [width]="200" [height]="200">
+    </div>
   <div>
   </div>
 </div>
