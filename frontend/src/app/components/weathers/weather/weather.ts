@@ -45,6 +45,7 @@ export class Weather {
       label: 'edit task',
       icon: 'icons/file-edit.png',
       action: () => {
+        console.log(this.cityData())
       }
     },
   ];

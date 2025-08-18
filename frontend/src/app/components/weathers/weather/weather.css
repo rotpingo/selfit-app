@@ -1,0 +1,28 @@
+.city-ctn {
+  border: 1px solid black;
+}
+
+.city-data-ctn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#city-name {
+  margin-top: 4rem;
+  font-size: 2rem;
+}
+
+.temp-ctn {
+  border: 8px solid #9d6ac9;
+  border-radius: 50%;
+  margin-top: 3rem;
+  text-align: center;
+  height: 12rem;
+  width: 12rem;
+  align-content: center;
+}
+
+.temp-ctn label {
+  font-size: 3.5rem;
+}

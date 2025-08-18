@@ -3,7 +3,16 @@
 }
 
 <div class="city-ctn">
-  <h3>{{cityData()?.name}}</h3>
+  <div class="city-data-ctn">
+    <label id="city-name">
+      {{cityData()?.name}}
+    </label>
+    <div class="temp-ctn">
+      <label>{{cityData()?.main?.temp?.toFixed(0)}}°C</label>
+    </div>
+  </div>
+  <div>
+  </div>
 </div>
 
 <app-fab-menu [options]="menuOptions" />
