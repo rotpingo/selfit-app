@@ -5,6 +5,7 @@ import { IAuthResponse, ISign } from '../../../models/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth-service';
+import { BootstrapService } from '../../../services/bootstrap-service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class Login {
 
   userService = inject(UserService);
   authService = inject(AuthService);
+  bootstrapService = inject(BootstrapService)
   router = inject(Router);
 
   loginForm = new FormGroup({
@@ -36,6 +38,7 @@ export class Login {
       this.userService.loginUser(user).subscribe({
         next: (response: IAuthResponse) => {
           this.authService.setToken(response.token);
+          this.bootstrapService.loadAllData();
           this.router.navigate(['/notes']);
         },
         error: (err: HttpErrorResponse) => console.error(err)

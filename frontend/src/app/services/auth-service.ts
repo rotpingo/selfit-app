@@ -13,6 +13,7 @@ export class AuthService implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.getToken();
+
     if (token) {
       request = request.clone({
         setHeaders: { Authorization: token }
@@ -48,5 +49,7 @@ export class AuthService implements HttpInterceptor {
 
   logout() {
     this.removeToken();
+    this.router.navigate(['/auth/login']);
   }
+
 }
