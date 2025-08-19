@@ -45,7 +45,8 @@ export class Weathers {
       }
       this.weatherService.addCity(city).subscribe({
         next: () => {
-          this.onCloseForm()
+          this.onCloseForm();
+          this.weatherService.refresh();
         },
         error: (err: HttpErrorResponse) => console.error(err)
       })

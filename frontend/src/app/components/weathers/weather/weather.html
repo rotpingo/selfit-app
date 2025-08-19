@@ -5,13 +5,15 @@
 <div class="city-ctn">
   <div class="city-data-ctn">
     <label id="city-name">
-      {{cityData()?.name}}
+      {{cityData()?.name}},
+      {{cityData()?.sys?.country}}
     </label>
     <div class="temp-ctn">
       <label>{{cityData()?.main?.temp?.toFixed(0)}}°C</label>
     </div>
-    <div class="status-img-container">
+    <div class="status-img-ctn">
       <img class="status-img" src={{imgUrl()}} [width]="200" [height]="200">
+      <label>{{cityData()?.weather?.[0]?.description}}</label>
     </div>
   <div>
   </div>
