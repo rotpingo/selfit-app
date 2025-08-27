@@ -14,10 +14,6 @@ export class NoteService {
   private readonly _notes = signal<INote[]>([]);
   readonly notes = this._notes.asReadonly()
 
-  constructor() {
-    this.loadNotes();
-  }
-
   loadNotes(): void {
     this.http.get<INote[]>(this.apiUrl).subscribe({
       next: (notes) => this._notes.set(notes),

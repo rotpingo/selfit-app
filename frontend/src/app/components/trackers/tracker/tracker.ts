@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { TrackerService } from '../../../services/tracker-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -25,6 +25,13 @@ export class Tracker {
   isFormOpen = signal(false);
   form = viewChild.required<ElementRef<HTMLFormElement>>('form');
   trackerForm = viewChild.required<ElementRef<HTMLFormElement>>('trackerForm');
+
+  daysSince = computed(() => {
+    const startDate = new Date(this.tracker()?.startDate!);
+    const now = new Date();
+    const diff = now.getTime() - startDate.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  })
 
   editForm = new FormGroup({
     title: new FormControl('', {
@@ -58,6 +65,7 @@ export class Tracker {
           title: this.tracker()?.title,
           notes: this.tracker()?.notes,
         });
+        console.log(this.tracker())
         this.isFormOpen.set(true);
         this.form().nativeElement.style.display = "flex";
       }

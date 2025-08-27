@@ -15,10 +15,6 @@ export class WeatherService {
   private readonly _weathers = signal<IWeatherRequest[]>([]);
   readonly weathers = this._weathers.asReadonly()
 
-  constructor() {
-    this.loadWeatherCities();
-  }
-
   addCity(req: IWeatherRequest): Observable<void> {
     return this.http.post<void>(this.apiUrl, req);
   }

@@ -15,10 +15,6 @@ export class TaskService {
   private readonly _tasks = signal<ITask[]>([]);
   readonly tasks = this._tasks.asReadonly()
 
-  constructor() {
-    this.loadTasks();
-  }
-
   loadTasks(): void {
     this.http.get<ITask[]>(this.apiUrl).subscribe({
       next: (tasks) => {

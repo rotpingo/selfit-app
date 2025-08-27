@@ -15,8 +15,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class Weather {
 
-  imgUrl = signal('');
-
   isFormOpen = signal(false);
   weatherService = inject(WeatherService)
 
@@ -29,6 +27,7 @@ export class Weather {
     { initialValue: null }
   );
 
+  imgUrl = signal("");
   menuOptions: IFabOption[] = [
     {
       label: 'delete task',

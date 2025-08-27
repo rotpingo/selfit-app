@@ -4,6 +4,7 @@
   <h3>{{ tracker()?.title }}</h3>
   <p>{{ tracker()?.notes}}</p>
   <span> {{ tracker()?.startDate | date:'fullDate'}} </span>
+  <p> days past: {{ this.daysSince() }} </p>
 </div>
 
 <form class="edit-form" [formGroup]="editForm" (ngSubmit)="onEditTracker()" #form>

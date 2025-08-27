@@ -15,10 +15,6 @@ export class TrackerService {
   private readonly _trackers = signal<ITracker[]>([]);
   readonly trackers = this._trackers.asReadonly()
 
-  constructor() {
-    this.loadTrackers()
-  }
-
   loadTrackers(): void {
     this.http.get<ITracker[]>(this.apiUrl).subscribe({
       next: (trackers) => this._trackers.set(trackers),
