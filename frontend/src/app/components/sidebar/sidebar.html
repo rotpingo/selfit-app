@@ -1,7 +1,7 @@
 <aside class="side-bar" [class.visible]="isOpen()">
   <ul>
     <div class="top">
-      <li class="list-item user">
+      <li class="list-item user" [routerLink]="['/user']" (click)="onNavigate()">
         <img src="icons/user-trust.png" alt="user" with="18px" height="18px">
       </li>
     </div>

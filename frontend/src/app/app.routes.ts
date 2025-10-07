@@ -10,6 +10,7 @@ import { Tracker } from './components/trackers/tracker/tracker';
 import { Weathers } from './components/weathers/weathers';
 import { Weather } from './components/weathers/weather/weather';
 import { Home } from './components/home/home';
+import { User } from './components/user/user';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,10 @@ export const routes: Routes = [
   {
     path: "home",
     component: Home,
+  },
+  {
+    path: "user",
+    component: User,
   },
   {
     path: "notes",

@@ -39,7 +39,7 @@ export class Login {
         next: (response: IAuthResponse) => {
           this.authService.setToken(response.token);
           this.bootstrapService.loadAllData();
-          this.router.navigate(['/notes']);
+          this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => console.error(err)
       });
