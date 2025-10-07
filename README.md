@@ -8,6 +8,7 @@ This app is created using such frameworks like Angular v20 for client-side and G
 - [x] Tasks Feature
 - [x] Habbit Tracker Feature
 - [x] Authentication (jwt token)
+- [ ] Home Component with adjustable display option.
 - [ ] UI Styling
 - [ ] Weather API (external data, optional widget)
 - [ ] Light Mode & Dark Mode
