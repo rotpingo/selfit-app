@@ -1,18 +1,21 @@
 .side-bar {
-  display: flex;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 150;
   width: 4.5rem;
-  height: 100vh;
   background-color: #313342;
-  color: wheat;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
+}
+
+.side-bar ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .side-bar.visible {
@@ -23,19 +26,22 @@ ul {
   list-style: none;
 }
 
-.item-ctn {
-  display: flex;
-  flex-direction: row;
-}
-
 .list-item {
-  margin: 2rem 0.3rem;
+  margin: 1rem 0.3rem;
   height: 3rem;
   width: 3rem;
   border-radius: 30px;
   cursor: pointer;
   align-content: center;
   background-color: white;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  gap: 1rem;
 }
 
 .user {
