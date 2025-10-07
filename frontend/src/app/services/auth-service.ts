@@ -35,6 +35,11 @@ export class AuthService implements HttpInterceptor {
     )
   }
 
+  // isLoggedIn(): boolean {
+  //   const token = this.getToken();
+  //   return !!token;
+  // }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }

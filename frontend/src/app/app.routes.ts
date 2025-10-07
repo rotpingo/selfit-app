@@ -9,6 +9,7 @@ import { Trackers } from './components/trackers/trackers';
 import { Tracker } from './components/trackers/tracker/tracker';
 import { Weathers } from './components/weathers/weathers';
 import { Weather } from './components/weathers/weather/weather';
+import { Home } from './components/home/home';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,15 @@ export const routes: Routes = [
   {
     path: "auth/register",
     component: Register
+  },
+  {
+    path: '',
+    redirectTo: "home",
+    pathMatch: 'full'
+  },
+  {
+    path: "home",
+    component: Home,
   },
   {
     path: "notes",

@@ -3,7 +3,7 @@
     <li class="list-item user">
       <img src="icons/user-trust.png" alt="user" with="18px" height="18px">
     </li>
-    <li class="list-item home">
+    <li class="list-item home" [routerLink]="['/home']" (click)="onNavigate()">
       <img src="icons/house.png" alt="home" with="18px" height="18px">
     </li>
     <li class="list-item notes" [routerLink]="['/notes']" (click)="onNavigate()">
