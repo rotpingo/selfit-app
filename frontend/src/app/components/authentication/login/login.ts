@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../../services/user-service';
 import { IAuthResponse, ISign } from '../../../models/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,7 +14,6 @@ import { BootstrapService } from '../../../services/bootstrap-service';
 })
 export class Login {
 
-  userService = inject(UserService);
   authService = inject(AuthService);
   bootstrapService = inject(BootstrapService)
   router = inject(Router);
@@ -35,7 +33,7 @@ export class Login {
         email: this.loginForm.value.email!,
         password: this.loginForm.value.password!
       }
-      this.userService.loginUser(user).subscribe({
+      this.authService.loginUser(user).subscribe({
         next: (response: IAuthResponse) => {
           this.authService.setToken(response.token);
           this.bootstrapService.loadAllData();

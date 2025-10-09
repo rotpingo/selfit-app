@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../../services/user-service';
+import { AuthService } from '../../../services/auth-service';
 import { ISign } from '../../../models/types';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +12,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 })
 export class Register {
 
-  userService = inject(UserService);
+  authService = inject(AuthService);
 
   createForm = new FormGroup({
     email: new FormControl('', {
@@ -29,7 +29,7 @@ export class Register {
         email: this.createForm.value.email!,
         password: this.createForm.value.password!
       }
-      this.userService.registerUser(newUser).subscribe({
+      this.authService.registerUser(newUser).subscribe({
         next: (response) => {
           //TODO: implement routing to the app
           console.log(response)

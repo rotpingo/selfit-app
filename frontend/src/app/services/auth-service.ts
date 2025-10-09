@@ -1,12 +1,17 @@
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { catchError, Observable, throwError } from "rxjs";
+import { IAuthResponse, ISign } from "../models/types";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements HttpInterceptor {
+
+  private apiUrl = 'http://localhost:6969/api/auth';
+
+  isLoggedIn = signal(false);
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -33,6 +38,16 @@ export class AuthService implements HttpInterceptor {
         return throwError(() => error);
       })
     )
+  }
+
+  registerUser(user: ISign): Observable<void> {
+    const url = `${this.apiUrl}/register`;
+    return this.http.post<void>(url, user);
+  }
+
+  loginUser(user: ISign): Observable<IAuthResponse> {
+    const url = `${this.apiUrl}/login`;
+    return this.http.post<IAuthResponse>(url, user);
   }
 
   getToken(): string | null {
