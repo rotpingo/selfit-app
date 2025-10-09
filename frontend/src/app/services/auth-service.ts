@@ -85,7 +85,6 @@ export class AuthService implements HttpInterceptor {
 
   isTokenExpired(token: string): boolean {
     const decoded = this.decodeToken(token);
-    console.log("decoded: ", decoded)
     if (!decoded || !decoded.exp) {
       return true;
     }
@@ -96,7 +95,6 @@ export class AuthService implements HttpInterceptor {
 
   checkToken(): boolean {
     const token = this.getToken();
-    console.log("you are here")
     if (!token || this.isTokenExpired(token)) {
       this.logout();
       return false;
