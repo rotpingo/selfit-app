@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal, Signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, tap, map, catchError } from 'rxjs';
 import { INote } from '../models/types';
 
 @Injectable({
@@ -14,11 +14,21 @@ export class NoteService {
   private readonly _notes = signal<INote[]>([]);
   readonly notes = this._notes.asReadonly()
 
-  loadNotes(): void {
-    this.http.get<INote[]>(this.apiUrl).subscribe({
-      next: (notes) => this._notes.set(notes),
-      error: (err) => console.error('Failed to load notes', err)
-    })
+  // loadNotes(): void {
+  //   this.http.get<INote[]>(this.apiUrl).subscribe({
+  //     next: (notes) => this._notes.set(notes),
+  //     error: (err) => console.error('Failed to load notes', err)
+  //   })
+
+  loadNotes(): Observable<void> {
+    return this.http.get<INote[]>(this.apiUrl).pipe(
+      tap(notes => this._notes.set(notes)), // update your signal
+      catchError(err => {
+        console.error('Failed to load notes', err);
+        return EMPTY;
+      }),
+      map(() => void 0) // ensure the observable returns void
+    );
   }
 
   // getNotes(): Signal<INote[]> {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { ITracker } from '../models/types';
-import { Observable } from 'rxjs';
+import { Observable, map, tap, catchError, EMPTY } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -15,12 +15,24 @@ export class TrackerService {
   private readonly _trackers = signal<ITracker[]>([]);
   readonly trackers = this._trackers.asReadonly()
 
-  loadTrackers(): void {
-    this.http.get<ITracker[]>(this.apiUrl).subscribe({
-      next: (trackers) => this._trackers.set(trackers),
-      error: (err) => console.error('Failed to load trackers', err)
-    })
+  // loadTrackers(): void {
+  //   this.http.get<ITracker[]>(this.apiUrl).subscribe({
+  //     next: (trackers) => this._trackers.set(trackers),
+  //     error: (err) => console.error('Failed to load trackers', err)
+  //   })
+  // }
+
+  loadTrackers(): Observable<void> {
+    return this.http.get<ITracker[]>(this.apiUrl).pipe(
+      tap(trackers => this._trackers.set(trackers)), // update your signal
+      catchError(err => {
+        console.error('Failed to load trackers', err);
+        return EMPTY;
+      }),
+      map(() => void 0) // ensure the observable returns void
+    );
   }
+
 
   // Get the Tracker from the loadedNotes pool, no need for HTTP REQUEST
   getTrackerByID(trackerID: number): Signal<ITracker | undefined> {

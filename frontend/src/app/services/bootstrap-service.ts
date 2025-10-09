@@ -3,6 +3,7 @@ import { NoteService } from "./note-service";
 import { TaskService } from "./task-service";
 import { TrackerService } from "./tracker-service";
 import { WeatherService } from "./weather-service";
+import { forkJoin, map, Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,12 @@ export class BootstrapService {
   trackerService = inject(TrackerService);
   weatherService = inject(WeatherService);
 
-  loadAllData() {
-    this.noteService.loadNotes();
-    this.taskService.loadTasks();
-    this.trackerService.loadTrackers();
-    this.weatherService.loadWeatherCities();
+  loadAllData(): Observable<void> {
+    return forkJoin([
+      this.noteService.loadNotes(),
+      this.taskService.loadTasks(),
+      this.trackerService.loadTrackers(),
+      this.weatherService.loadWeatherCities(),
+    ]).pipe(map(() => void 0));
   }
 }

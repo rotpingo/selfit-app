@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { ITask } from '../models/types';
-import { Observable } from 'rxjs';
+import { Observable, map, tap, EMPTY, catchError } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -15,13 +15,24 @@ export class TaskService {
   private readonly _tasks = signal<ITask[]>([]);
   readonly tasks = this._tasks.asReadonly()
 
-  loadTasks(): void {
-    this.http.get<ITask[]>(this.apiUrl).subscribe({
-      next: (tasks) => {
-        this._tasks.set(tasks);
-      },
-      error: (err) => console.error('Failed to load tasks', err)
-    })
+  // loadTasks(): void {
+  //   this.http.get<ITask[]>(this.apiUrl).subscribe({
+  //     next: (tasks) => {
+  //       this._tasks.set(tasks);
+  //     },
+  //     error: (err) => console.error('Failed to load tasks', err)
+  //   })
+  // }
+
+  loadTasks(): Observable<void> {
+    return this.http.get<ITask[]>(this.apiUrl).pipe(
+      tap(tasks => this._tasks.set(tasks)), // update your signal
+      catchError(err => {
+        console.error('Failed to load tasks', err);
+        return EMPTY;
+      }),
+      map(() => void 0) // ensure the observable returns void
+    );
   }
 
   refresh(): void {

@@ -4,6 +4,7 @@ import { Nav } from './components/nav/nav';
 import { Sidebar } from './components/sidebar/sidebar';
 import { Backdrop } from './components/shared/backdrop/backdrop';
 import { AuthService } from './services/auth-service';
+import { BootstrapService } from './services/bootstrap-service';
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,21 @@ import { AuthService } from './services/auth-service';
 })
 export class App implements OnInit {
   protected title = 'selfit';
+  bootstrapped = signal(false);
 
-  authService = inject(AuthService)
+  authService = inject(AuthService);
+  bootstrapService = inject(BootstrapService);
   sideBarOpen = signal<boolean>(false);
 
   ngOnInit(): void {
-    this.authService.checkToken();
+    if (this.authService.checkToken()) {
+      this.bootstrapService.loadAllData().subscribe({
+        next: () => this.bootstrapped.set(true),
+        error: () => this.authService.logout(),
+      });
+    } else {
+      this.bootstrapped.set(false);
+    }
   }
 
   onSideBarOpen() {

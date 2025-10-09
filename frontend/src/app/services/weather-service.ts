@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, tap, map, EMPTY, catchError } from "rxjs";
 import { IWeatherRequest, IWeatherResponse } from "../models/types";
 
 @Injectable({
@@ -19,12 +19,24 @@ export class WeatherService {
     return this.http.post<void>(this.apiUrl, req);
   }
 
-  loadWeatherCities(): void {
-    this.http.get<IWeatherRequest[]>(this.apiUrl).subscribe({
-      next: (weathers) => this._weathers.set(weathers),
-      error: (err) => console.error('Failed to load weather cities', err)
-    })
+  // loadWeatherCities(): void {
+  //   this.http.get<IWeatherRequest[]>(this.apiUrl).subscribe({
+  //     next: (weathers) => this._weathers.set(weathers),
+  //     error: (err) => console.error('Failed to load weather cities', err)
+  //   })
+  // }
+
+  loadWeatherCities(): Observable<void> {
+    return this.http.get<IWeatherRequest[]>(this.apiUrl).pipe(
+      tap(weathers => this._weathers.set(weathers)), // update your signal
+      catchError(err => {
+        console.error('Failed to load weather cities', err);
+        return EMPTY;
+      }),
+      map(() => void 0) // ensure the observable returns void
+    );
   }
+
 
   getWeatherById(cityId: number): Observable<IWeatherResponse> {
     const url = `${this.apiUrl}/${cityId}`;

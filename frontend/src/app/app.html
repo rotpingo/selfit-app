@@ -1,9 +1,17 @@
-@if(sideBarOpen()){
-<app-backdrop (close)="onSideBarClose()" />
-}
-<app-nav (menuClick)="onSideBarOpen()" />
-<app-sidebar [isOpen]="sideBarOpen()" (navigate)="onSideBarClose()" />
+@if(bootstrapped()){
+  <ng-container>
+  @if(sideBarOpen()){
+    <app-backdrop (close)="onSideBarClose()" />
+  }
+  <app-nav (menuClick)="onSideBarOpen()" />
+  <app-sidebar [isOpen]="sideBarOpen()" (navigate)="onSideBarClose()" />
 
-<div id="app-container">
-  <router-outlet />
-</div>
+  <div id="app-container">
+    <router-outlet />
+  </div>
+  </ng-container>
+} @else {
+  <div class="loading-screen">
+    Loading...
+    </div>
+}
