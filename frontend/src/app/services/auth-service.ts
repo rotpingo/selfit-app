@@ -19,7 +19,7 @@ export class AuthService implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.getToken();
 
-    if (token) {
+    if (token && !this.isTokenExpired(token)) {
       request = request.clone({
         setHeaders: { Authorization: token }
       });
@@ -50,21 +50,54 @@ export class AuthService implements HttpInterceptor {
     return this.http.post<IAuthResponse>(url, user);
   }
 
+  logout() {
+    this.removeToken();
+    this.isLoggedIn.set(false);
+    this.router.navigate(['/auth/login']);
+  }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
   setToken(token: string) {
     localStorage.setItem('token', token);
+    this.isLoggedIn.set(true);
   }
 
   removeToken() {
     localStorage.removeItem('token');
   }
 
-  logout() {
-    this.removeToken();
-    this.router.navigate(['/auth/login']);
+  private decodeToken(token: string) {
+    try {
+      const payload = token.split('.')[1];
+      const decoded = atob(payload);
+      return JSON.parse(decoded);
+    } catch {
+      return null;
+    }
+  }
+
+  isTokenExpired(token: string): boolean {
+    const decoded = this.decodeToken(token);
+    console.log("decoded: ", decoded)
+    if (!decoded || !decoded.exp) {
+      return true;
+    }
+
+    const expiry = decoded.exp * 1000; // converted to ms
+    return Date.now() > expiry
+  }
+
+  checkToken(): void {
+    const token = this.getToken();
+    console.log("you are here")
+    if (!token || this.isTokenExpired(token)) {
+      this.logout();
+      return;
+    }
+    this.isLoggedIn.set(true);
   }
 
 }
