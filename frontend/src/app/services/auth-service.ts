@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
-import { catchError, Observable, throwError } from "rxjs";
+import { catchError, EMPTY, Observable, throwError } from "rxjs";
 import { IAuthResponse, ISign } from "../models/types";
 
 @Injectable({
@@ -19,18 +19,22 @@ export class AuthService implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.getToken();
 
-    if (token && !this.isTokenExpired(token)) {
+    if (!request.url.includes('/login') && !request.url.includes('/register')) {
+      if (!token || this.isTokenExpired(token)) {
+        this.logout();
+        return EMPTY;
+      }
+
+
       request = request.clone({
         setHeaders: { Authorization: token }
       });
     }
-
     return next.handle(request).pipe(
       catchError((error: any) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
-            this.removeToken();
-            this.router.navigate(['/auth/login']);
+            this.logout();
             return throwError(() => new Error("Not authorized."));
           }
         }
