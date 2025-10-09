@@ -11,6 +11,7 @@ import { Weathers } from './components/weathers/weathers';
 import { Weather } from './components/weathers/weather/weather';
 import { Home } from './components/home/home';
 import { User } from './components/user/user';
+import { AuthGuard } from './guards/AuthGuard';
 
 export const routes: Routes = [
   {
@@ -22,47 +23,52 @@ export const routes: Routes = [
     component: Register
   },
   {
-    path: '',
-    redirectTo: "home",
-    pathMatch: 'full'
-  },
-  {
     path: "home",
     component: Home,
+    canActivate: [AuthGuard]
   },
   {
     path: "user",
     component: User,
+    canActivate: [AuthGuard]
   },
   {
     path: "notes",
-    component: Notes
+    component: Notes,
+    canActivate: [AuthGuard]
   },
   {
     path: "notes/:id",
-    component: Note
+    component: Note,
+    canActivate: [AuthGuard]
   },
   {
     path: "tasks",
-    component: Tasks
+    component: Tasks,
+    canActivate: [AuthGuard]
   },
   {
     path: "tasks/:id",
-    component: Task
+    component: Task,
+    canActivate: [AuthGuard]
   },
   {
     path: "trackers",
-    component: Trackers
+    component: Trackers,
+    canActivate: [AuthGuard]
   },
   {
     path: "trackers/:id",
-    component: Tracker
+    component: Tracker,
+    canActivate: [AuthGuard]
   },
   {
     path: "weather",
-    component: Weathers
+    component: Weathers,
+    canActivate: [AuthGuard]
   }, {
     path: "weather/:id",
-    component: Weather
+    component: Weather,
+    canActivate: [AuthGuard]
   },
 ];

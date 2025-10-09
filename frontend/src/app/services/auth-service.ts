@@ -94,14 +94,15 @@ export class AuthService implements HttpInterceptor {
     return Date.now() > expiry
   }
 
-  checkToken(): void {
+  checkToken(): boolean {
     const token = this.getToken();
     console.log("you are here")
     if (!token || this.isTokenExpired(token)) {
       this.logout();
-      return;
+      return false;
     }
     this.isLoggedIn.set(true);
+    return true;
   }
 
 }
