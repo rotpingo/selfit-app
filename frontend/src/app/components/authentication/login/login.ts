@@ -36,7 +36,6 @@ export class Login {
       this.authService.loginUser(user).subscribe({
         next: (response: IAuthResponse) => {
           this.authService.setToken(response.token);
-          this.bootstrapService.loadAllData();
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => console.error(err)

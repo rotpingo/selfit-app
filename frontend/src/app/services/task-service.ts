@@ -35,6 +35,10 @@ export class TaskService {
     );
   }
 
+  clearTasks(): void {
+    this._tasks.set([])
+  }
+
   refresh(): void {
     this.loadTasks()
   }

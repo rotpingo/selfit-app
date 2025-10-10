@@ -37,6 +37,9 @@ export class WeatherService {
     );
   }
 
+  clearCitiesWeather(): void {
+    this._weathers.set([])
+  }
 
   getWeatherById(cityId: number): Observable<IWeatherResponse> {
     const url = `${this.apiUrl}/${cityId}`;

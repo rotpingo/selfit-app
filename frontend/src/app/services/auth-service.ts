@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { catchError, EMPTY, Observable, throwError } from "rxjs";
 import { IAuthResponse, ISign } from "../models/types";
@@ -10,6 +10,8 @@ import { IAuthResponse, ISign } from "../models/types";
 export class AuthService implements HttpInterceptor {
 
   private apiUrl = 'http://localhost:6969/api/auth';
+  private readonly _isLoggedIn = signal(false);
+  isLoggedIn = this._isLoggedIn.asReadonly();
 
   http = inject(HttpClient);
   router = inject(Router);
@@ -54,6 +56,7 @@ export class AuthService implements HttpInterceptor {
 
   logout() {
     this.removeToken();
+    this._isLoggedIn.set(false);
     this.router.navigate(['/auth/login']);
   }
 
@@ -63,6 +66,7 @@ export class AuthService implements HttpInterceptor {
 
   setToken(token: string) {
     localStorage.setItem('token', token);
+    this._isLoggedIn.set(true);
   }
 
   removeToken() {

@@ -31,6 +31,10 @@ export class NoteService {
     );
   }
 
+  clearNotes(): void {
+    this._notes.set([])
+  }
+
   // getNotes(): Signal<INote[]> {
   //   const request$: Observable<INote[]> = this.http.get<INote[]>(this.apiUrl);
   //   return toSignal(request$, { initialValue: [] });

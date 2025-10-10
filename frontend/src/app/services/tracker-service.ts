@@ -33,6 +33,9 @@ export class TrackerService {
     );
   }
 
+  clearTrackers(): void {
+    this._trackers.set([])
+  }
 
   // Get the Tracker from the loadedNotes pool, no need for HTTP REQUEST
   getTrackerByID(trackerID: number): Signal<ITracker | undefined> {

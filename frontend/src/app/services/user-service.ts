@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { IUser } from '../models/types';
 import { AuthService } from './auth-service';
-import { Observable } from 'rxjs';
+import { Observable, tap, map, catchError, EMPTY } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +16,19 @@ export class UserService {
   private readonly _user = signal<IUser | null>(null);
   readonly user = this._user.asReadonly()
 
-  loadUser(): void {
-    this.http.get<IUser>(this.apiUrl).subscribe({
-      next: (user) => this._user.set(user),
-      error: (err) => {
-        console.error("ERROR: ", err);
-        this.authService.logout();
-      }
-    })
+  loadUser(): Observable<void> {
+    return this.http.get<IUser>(this.apiUrl).pipe(
+      tap(user => this._user.set(user)), // update your signal
+      catchError(err => {
+        console.error('Failed to load user data', err);
+        return EMPTY;
+      }),
+      map(() => void 0) // ensure the observable returns void
+    );
+  }
+
+  clearUser(): void {
+    this._user.set(null)
   }
 
   editUser(user: IUser): Observable<void> {
