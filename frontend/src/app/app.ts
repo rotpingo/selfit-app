@@ -22,12 +22,13 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.checkToken()) {
+      console.log("you are here");
       this.bootstrapService.loadAllData().subscribe({
         next: () => this.bootstrapped.set(true),
         error: () => this.authService.logout(),
       });
     } else {
-      this.bootstrapped.set(false);
+      this.bootstrapped.set(true);
     }
   }
 

@@ -7,7 +7,7 @@ import (
 )
 
 func RegisterRoutes(server *gin.Engine) {
-	handlers.RegisterUserRoutes(server)
+	handlers.RegisterAuthRoutes(server)
 	handlers.RegisterNoteRoutes(server)
 	handlers.RegisterTaskRoutes(server)
 	handlers.RegisterTrackerRoutes(server)

@@ -4,6 +4,9 @@
     <input type="text" length="6" formControlName="email">
     <label> password </label>
     <input type="password" formControlName="password">
-    <button type="submit">sign in</button>
+    <div class="btns">
+      <button type="submit">sign in</button>
+      <button type="button" [routerLink]="['/auth/register']">register</button>
+    </div>
   </form>
 </div>
