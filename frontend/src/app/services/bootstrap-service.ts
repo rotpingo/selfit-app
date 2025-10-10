@@ -23,7 +23,10 @@ export class BootstrapService {
     effect(() => {
       console.log(this.authService.isLoggedIn())
       if (this.authService.isLoggedIn()) {
-        this.loadAllData().subscribe();
+        this.loadAllData().subscribe({
+          next: () => console.log("Data loaded"),
+          error: (err) => console.error(err)
+        });
       } else {
         this.clearAllData();
       }
@@ -40,14 +43,12 @@ export class BootstrapService {
     ]).pipe(map(() => void 0));
   }
 
-  clearAllData(): Observable<void> {
-    return forkJoin([
-      this.noteService.clearNotes(),
-      this.taskService.clearTasks(),
-      this.trackerService.clearTrackers(),
-      this.weatherService.clearCitiesWeather(),
-      // this.userService.clearUser(),
-    ]).pipe(map(() => void 0));
+  clearAllData(): void {
+    this.noteService.clearNotes();
+    this.taskService.clearTasks();
+    this.trackerService.clearTrackers();
+    this.weatherService.clearCitiesWeather();
+    // this.userService.clearUser();
   }
 
 }
