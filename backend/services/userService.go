@@ -1,6 +1,7 @@
 package services
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"selfit/database"
@@ -63,4 +64,21 @@ func ValidateUser(user *models.User) error {
 	}
 
 	return nil
+}
+
+func GetUser(userId int64) (models.User, error) {
+	query := "SELECT id, name, email FROM users WHERE id = $1"
+
+	var user models.User
+	err := database.DB.QueryRow(query, userId).Scan(&user.ID, &user.Name, &user.Email)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			fmt.Println("user not found")
+		} else {
+			fmt.Println("error fetching user data:", err)
+		}
+		return models.User{}, err
+	}
+
+	return user, nil
 }

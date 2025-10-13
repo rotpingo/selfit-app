@@ -66,6 +66,7 @@ export class AuthService implements HttpInterceptor {
 
   setToken(token: string) {
     localStorage.setItem('token', token);
+    //  TODO: find a better way to do it maybe.
     this._isLoggedIn.set(false); // workaround for the data to being loaded
     this._isLoggedIn.set(true); // useEfrect wont run if no signal changes
   }

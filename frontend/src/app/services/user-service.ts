@@ -31,6 +31,12 @@ export class UserService {
     this._user.set(null)
   }
 
+  getUser(): Observable<IUser> {
+    const url = `${this.apiUrl}`;
+    return this.http.get<IUser>(url)
+  }
+
+
   editUser(user: IUser): Observable<void> {
     const url = `${this.apiUrl}/${user.id}`;
     return this.http.put<void>(url, user)

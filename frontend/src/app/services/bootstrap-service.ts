@@ -39,7 +39,7 @@ export class BootstrapService {
       this.taskService.loadTasks(),
       this.trackerService.loadTrackers(),
       this.weatherService.loadWeatherCities(),
-      // this.userService.loadUser()
+      this.userService.loadUser()
     ]).pipe(map(() => void 0));
   }
 
@@ -48,7 +48,7 @@ export class BootstrapService {
     this.taskService.clearTasks();
     this.trackerService.clearTrackers();
     this.weatherService.clearCitiesWeather();
-    // this.userService.clearUser();
+    this.userService.clearUser();
   }
 
 }

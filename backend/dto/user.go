@@ -24,22 +24,22 @@ type UpdateUserDTO struct {
 	Email string `json:"email" binding:"required"`
 }
 
-func (dto UpdateUserDTO) ToNoteModel(userId int64) *models.User {
-	return &models.User{
-		ID:        dto.ID,
-		Name:      dto.Name,
-		Email:     dto.Email,
-		UpdatedAt: time.Now(),
-	}
-}
-
-func UserToResponseDTO(user *models.User) UserResponseDTO {
-	return UserResponseDTO{
-		ID:    user.ID,
-		Name:  user.Name,
-		Email: user.Email,
-	}
-}
+// func (dto UpdateUserDTO) ToUserModel(userId int64) *models.User {
+// 	return &models.User{
+// 		ID:        dto.ID,
+// 		Name:      dto.Name,
+// 		Email:     dto.Email,
+// 		UpdatedAt: time.Now(),
+// 	}
+// }
+//
+// func UserToResponseDTO(user *models.User) UserResponseDTO {
+// 	return UserResponseDTO{
+// 		ID:    user.ID,
+// 		Name:  user.Name,
+// 		Email: user.Email,
+// 	}
+// }
 
 func (dto UserAuthDTO) ToUserModel() *models.User {
 	return &models.User{
