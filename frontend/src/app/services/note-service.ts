@@ -14,11 +14,12 @@ export class NoteService {
   private readonly _notes = signal<INote[]>([]);
   readonly notes = this._notes.asReadonly()
 
-  // loadNotes(): void {
+  // loadNotesNow(): void {
   //   this.http.get<INote[]>(this.apiUrl).subscribe({
   //     next: (notes) => this._notes.set(notes),
   //     error: (err) => console.error('Failed to load notes', err)
   //   })
+  // }
 
   loadNotes(): Observable<void> {
     return this.http.get<INote[]>(this.apiUrl).pipe(
@@ -61,7 +62,7 @@ export class NoteService {
   }
 
   refresh(): void {
-    this.loadNotes()
+    this.loadNotes().subscribe();
   }
 
 }

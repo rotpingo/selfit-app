@@ -1,5 +1,6 @@
 #app-container {
-  margin-top: 3rem;
+  background-color: #eeeeef;
+  height: 100vh;
 }
 
 .loading-screen {

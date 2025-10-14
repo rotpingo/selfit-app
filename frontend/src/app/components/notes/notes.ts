@@ -34,6 +34,7 @@ export class Notes {
       icon: 'icons/add-document.png',
       action: () => {
         this.isFormOpen.set(true);
+        console.log(this.notes)
         this.form().nativeElement.style.display = "flex";
       }
     },
