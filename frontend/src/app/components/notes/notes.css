@@ -4,21 +4,28 @@
 
 .notes {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  gap: 0.8rem;
+  justify-content: flex-start;
+  padding: 1rem;
 }
 
 .note-item {
-  border: 2px solid #8c9e6e;
-  border-radius: 10px;
+  /* border: 2px solid #8c9e6e; */
+  /* border-radius: 10px; */
+  flex: 0 0 48%;
   height: 6rem;
-  width: 42vw;
   align-content: center;
   text-align: center;
-  margin: 0.5rem 0.5rem;
   cursor: pointer;
-  background-color: white;
+  background-color: #ffe9ad;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.note-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .create-form {
