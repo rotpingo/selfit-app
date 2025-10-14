@@ -1,10 +1,9 @@
 .space {
-  height: 0.5rem;
-  width: 100vw;
+  height: 4rem;
 }
 
 .task-item {
-  margin: 1rem;
+  margin: 0.5rem;
   height: 5rem;
   align-content: center;
   text-align: center;

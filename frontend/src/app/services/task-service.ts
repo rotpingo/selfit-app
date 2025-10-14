@@ -40,7 +40,7 @@ export class TaskService {
   }
 
   refresh(): void {
-    this.loadTasks()
+    this.loadTasks().subscribe();
   }
 
   getTasks(): Signal<ITask[]> {

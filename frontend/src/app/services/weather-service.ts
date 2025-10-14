@@ -53,7 +53,7 @@ export class WeatherService {
 
 
   refresh(): void {
-    this.loadWeatherCities()
+    this.loadWeatherCities().subscribe();
   }
 
 }

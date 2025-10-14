@@ -62,7 +62,7 @@ export class TrackerService {
   }
 
   refresh(): void {
-    this.loadTrackers()
+    this.loadTrackers().subscribe();
   }
 
 

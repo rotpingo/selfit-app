@@ -4,12 +4,14 @@
 
 <div class="space"></div>
 
-@for (note of notes(); track note.id){
-<div class="note-item" [routerLink]="[note.id]">
-  {{ note.title }}
-  {{ note.createdAt }}
+<div class="notes">
+  @for (note of notes(); track note.id){
+  <div class="note-item" [routerLink]="[note.id]">
+    {{ note.title }}
+    {{ note.createdAt }}
+  </div>
+  }
 </div>
-}
 
 <app-fab-menu [options]="menuOptions" />
 
